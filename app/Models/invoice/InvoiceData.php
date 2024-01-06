@@ -9,6 +9,8 @@ class InvoiceData extends Model
 {
     use HasFactory;
 
+    protected $table = "invoice_datas";
+    
     protected $guarded = [
         "id"
     ];

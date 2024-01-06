@@ -27,6 +27,13 @@ class InvoiceTracking extends Model
     }
 
     /**
+     * Casts attribut data 
+     */
+    protected $casts = [
+        "tracking" => "array"
+    ];
+
+    /**
      * Relation table
      */
     public function oneInvoice(){

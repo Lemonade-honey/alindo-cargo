@@ -14,6 +14,13 @@ class InvoiceCost extends Model
     ];
 
     /**
+     * Casts attribut data 
+     */
+    protected $casts = [
+        "biaya_lainnya" => "array"
+    ];
+
+    /**
      * Relation table
      */
     public function oneInvoice(){

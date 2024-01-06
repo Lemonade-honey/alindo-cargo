@@ -47,4 +47,8 @@ class Invoice extends Model
     public function oneInvoiceData(){
         return $this->hasOne(InvoiceData::class, "id_invoice", "id");
     }
+
+    public function oneInvoiceTracking(){
+        return $this->hasOne(InvoiceTracking::class, "id_invoice", "id");
+    }
 }
