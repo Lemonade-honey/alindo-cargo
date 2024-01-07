@@ -26,6 +26,13 @@ Route::prefix("dashboard")->group(function(){
     // Route Path Invoice
     Route::prefix("invoice")->group(function(){
         Route::get("/", [InvoiceController::class, "index"])->name("invoice");
+
+        Route::get("/create", [InvoiceController::class, "create"])->name("invoice.create");
+        Route::post("/create", [InvoiceController::class, "createPost"]);
+
+        Route::get("/{invoice}/edit", [InvoiceController::class, "edit"])->name("invoice.edit");
+        Route::post("/{invoice}/edit", [InvoiceController::class, "editPost"]);
+
         Route::get("/{invoice}", [InvoiceController::class, "detail"])->name("invoice.detail");
     });
 });
