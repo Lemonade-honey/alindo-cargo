@@ -4,7 +4,32 @@ namespace App\Service\Impl;
 use App\Service\InvoiceServiceInterface;
 
 class InvoiceServiceImp implements InvoiceServiceInterface{
-    public function invoiceExpired($invoice, int $expDays = 14): bool{
+
+    public function createFormSetting(\App\Http\Requests\RequestInvoiceCreate $requestInvoiceCreate): array | null{
+        $formSettings = [
+            "form-lock" => $requestInvoiceCreate->has("form-lock") ? true : false,
+            "member-id" => $requestInvoiceCreate->input("member-id") ?? null
+        ];
+
+        return $formSettings;
+    }
+
+    public function createBiayalainnya(\App\Http\Requests\RequestInvoiceCreate $requestInvoiceCreate): array | null{
+        $biayaLainnya = [];
+
+        if($requestInvoiceCreate->has('ket_lainnya')){
+            foreach ($requestInvoiceCreate->input("ket_lainnya") as $key => $value) {
+                array_push($biayaLainnya, [
+                    'keterangan' => $value,
+                    'harga' => $requestInvoiceCreate->input("ket_biaya")[$key]
+                ]);
+            }
+        }
+
+        return $biayaLainnya;
+    }
+
+    public function expired($invoice, int $expDays = 14): bool{
 
         $date = new \DateTime($invoice->created_at);
         
@@ -16,5 +41,55 @@ class InvoiceServiceImp implements InvoiceServiceInterface{
         }
 
         return false;
+    }
+
+    public function addHistory(string $action, string $keterangan, string $person, ?array $history = null): array{
+
+        if($history !== null){
+            $oldHistory = $history;
+
+            array_push($oldHistory, [
+                "action" => strtoupper($action),
+                "keterangan" => $keterangan,
+                "person" => $person,
+                "date" => date("H:i:s d M Y")
+            ]);
+
+            return $oldHistory;
+        }
+
+        return $history = [
+            [
+                "action" => strtoupper($action),
+                "keterangan" => $keterangan,
+                "person" => $person,
+                "date" => date("H:i:s d M Y")
+            ]
+        ];;
+    }
+
+    public function addTracking(string $status, string $location, string $deskripsi, string $person, ?array $tracking = null): array{
+        
+        if($tracking !== null){
+            array_push($tracking, [
+                "status" => $status,
+                "location" => $location,
+                "deskripsi" => $deskripsi,
+                "person" => $person,
+                "date" => date("H:i:s d M Y")
+            ]);
+
+            return $tracking;
+        }
+
+        return $tracking = [
+            [
+                "status" => $status,
+                "location" => $location,
+                "deskripsi" => $deskripsi,
+                "person" => $person,
+                "date" => date("H:i:s d M Y")
+            ]
+        ];
     }
 }
