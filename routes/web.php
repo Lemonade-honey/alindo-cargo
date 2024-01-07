@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InvoiceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,5 +21,11 @@ Route::get('/', function () {
 Route::prefix("dashboard")->group(function(){
     Route::get("/", function(){
         return view("dashboard");
+    });
+
+    // Route Path Invoice
+    Route::prefix("invoice")->group(function(){
+        Route::get("/", [InvoiceController::class, "index"])->name("invoice");
+        Route::get("/{invoice}", [InvoiceController::class, "detail"])->name("invoice.detail");
     });
 });

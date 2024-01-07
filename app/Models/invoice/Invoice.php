@@ -42,13 +42,28 @@ class Invoice extends Model
     ];
 
     /**
+     * Get and Set Attribut data
+     */
+    public function getCreatedAtAttribute($value){
+        return \Carbon\Carbon::parse($value)->format('H:i, d M Y');
+    }
+
+    /**
      * Relation this table
      */
-    public function oneInvoiceData(){
+    public function invoiceData(){
         return $this->hasOne(InvoiceData::class, "id_invoice", "id");
     }
 
-    public function oneInvoiceTracking(){
+    public function invoiceCost(){
+        return $this->hasOne(InvoiceCost::class, "id_invoice", "id");
+    }
+
+    public function invoicePerson(){
+        return $this->hasOne(InvoicePerson::class, "id_invoice", "id");
+    }
+
+    public function invoiceTracking(){
         return $this->hasOne(InvoiceTracking::class, "id_invoice", "id");
     }
 }

@@ -10,8 +10,8 @@
     @stack('style')
 </head>
 <body>
-    @include('include.sidebar')
-    <div class="p-4 mt-20 sm:ml-64">
+    {{-- @include('include.sidebar') --}}
+    <div class="p-4 mt-20 sm:mr-4 sm:ml-64">
         @yield('body')
     </div>
     @stack('script')
