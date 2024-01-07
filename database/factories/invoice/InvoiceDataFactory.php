@@ -30,6 +30,7 @@ class InvoiceDataFactory extends Factory
             "form_setting" => $formSetting,
             "berat" => $berat,
             "harga_kg" => $hargaKg,
+            "koli" => fake()->boolean() ? 1 : fake()->numberBetween(2, 4),
             "kategori" => $kategori,
             "pemeriksaan" => $pemeriksaan
         ];

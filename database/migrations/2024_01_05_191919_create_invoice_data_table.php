@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('form_setting');
             $table->string('berat');
             $table->string('harga_kg');
+            $table->integer("koli");
             $table->string('kategori');
             $table->boolean('pemeriksaan');
             $table->timestamps();

@@ -19,11 +19,30 @@ class InvoiceTrackingFactory extends Factory
         $trackingDefault = [
             "status" => "Diterima",
             "location" => "YOGYAKARTA",
-            "deskripsi" => "Paket disetorkan di Gudang Alindo Cargo Yogyakarta"
+            "deskripsi" => "Paket disetorkan di Gudang Alindo Cargo Yogyakarta",
+            "person" => fake()->name(),
+            "date" => now()
+        ];
+
+        $tracking2 = [
+            [
+                "status" => "Diterima",
+                "location" => "YOGYAKARTA",
+                "deskripsi" => "Paket diterima oleh staff",
+                "person" => fake()->name(),
+                "date" => now()
+            ],
+            [
+                "status" => "Diterima",
+                "location" => "YOGYAKARTA",
+                "deskripsi" => "Paket diterima di Gudang Alindo Cargo Yogyakarta",
+                "person" => fake()->name(),
+                "date" => now()->addHours(2)
+            ]
         ];
 
         return [
-            "tracking" => [$trackingDefault]
+            "tracking" => fake()->boolean() ? [$trackingDefault] : $tracking2
         ];
     }
 }

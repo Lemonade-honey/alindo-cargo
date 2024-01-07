@@ -16,9 +16,9 @@ class InvoiceCostFactory extends Factory
      */
     public function definition(): array
     {
-        $biaya_lainnya = fake()->boolean() ? null : [
+        $biaya_lainnya = fake()->boolean() ? [] : [
             [
-                "keteragan" => "pickup",
+                "keterangan" => "pickup",
                 "harga" => 10000
             ]
         ];
