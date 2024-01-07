@@ -43,7 +43,7 @@ class InvoiceServiceImp implements InvoiceServiceInterface{
         return false;
     }
 
-    public function addHistory(string $action, string $keterangan, string $person, ?array $history = null): array{
+    public function addHistory(string $action, string $keterangan, ?array $history = null): array{
 
         if($history !== null){
             $oldHistory = $history;
@@ -51,7 +51,7 @@ class InvoiceServiceImp implements InvoiceServiceInterface{
             array_push($oldHistory, [
                 "action" => strtoupper($action),
                 "keterangan" => $keterangan,
-                "person" => $person,
+                "person" => "nama user",
                 "date" => date("H:i:s d M Y")
             ]);
 
@@ -62,20 +62,20 @@ class InvoiceServiceImp implements InvoiceServiceInterface{
             [
                 "action" => strtoupper($action),
                 "keterangan" => $keterangan,
-                "person" => $person,
+                "person" => "nama user",
                 "date" => date("H:i:s d M Y")
             ]
         ];;
     }
 
-    public function addTracking(string $status, string $location, string $deskripsi, string $person, ?array $tracking = null): array{
+    public function addTracking(string $status, string $location, string $deskripsi, ?array $tracking = null): array{
         
         if($tracking !== null){
             array_push($tracking, [
                 "status" => $status,
                 "location" => $location,
                 "deskripsi" => $deskripsi,
-                "person" => $person,
+                "person" => "nama user",
                 "date" => date("H:i:s d M Y")
             ]);
 
@@ -87,7 +87,7 @@ class InvoiceServiceImp implements InvoiceServiceInterface{
                 "status" => $status,
                 "location" => $location,
                 "deskripsi" => $deskripsi,
-                "person" => $person,
+                "person" => "nama user",
                 "date" => date("H:i:s d M Y")
             ]
         ];

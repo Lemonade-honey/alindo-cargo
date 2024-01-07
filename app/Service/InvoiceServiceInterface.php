@@ -29,10 +29,10 @@ interface InvoiceServiceInterface{
     /**
      * Invoice History Service
      */
-    public function addHistory(string $action, string $keterangan, string $person, ?array $history = null): array;
+    public function addHistory(string $action, string $keterangan, ?array $history = null): array;
 
     /**
      * Invoice Tracking Service
      */
-    public function addTracking(string $status, string $location, string $deskripsi, string $person, ?array $tracking = null): array;
+    public function addTracking(string $status, string $location, string $deskripsi, ?array $tracking = null): array;
 }
