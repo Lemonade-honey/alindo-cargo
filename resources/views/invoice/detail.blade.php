@@ -91,6 +91,8 @@
     </nav>
 </header>
 
+@include('include.flash')
+
 <main>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <div class="w-full p-4 border border-gray-100 rounded-lg shadow">
@@ -299,7 +301,7 @@
                             <svg fill="#ffffff" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>paper</title> <path d="M0 32l4-4 4 4 4-4 4 4 4-4 4 4 4-4 4 4v-25.984q0-2.496-1.76-4.256t-4.224-1.76h-20q-2.496 0-4.256 1.76t-1.76 4.256v25.984zM4 22.016v-16q0-0.832 0.576-1.408t1.44-0.608h20q0.8 0 1.408 0.608t0.576 1.408v16l-4 4-4-4-4 4-4-4-4 4zM8 18.016h16v-2.016h-16v2.016zM8 14.016h16v-2.016h-16v2.016zM8 10.016h16v-2.016h-16v2.016z"></path> </g></svg>
                         </div>
                     </a>
-                    <a href="#" class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2" title="Print Invoice QR">
+                    <a href="{{ route('invoice.edit', ['invoice' => $invoice->invoice]) }}" class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2" title="Print Invoice QR">
                         Edit Invoice
                     </a>
                 </div>
