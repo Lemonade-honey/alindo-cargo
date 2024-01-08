@@ -17,3 +17,21 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// route API Vendor
+Route::prefix("vendors")->group(function(){
+    Route::get("/kota/{id}", function($id){
+        $data = \App\Models\vendor\VendorDetail::with('vendor')->where("id_kota", $id)->get();
+        
+        $vendors = [];
+
+        foreach($data as $vendor){
+            $vendors[] = [
+                "id" => $vendor->id,
+                "name" => $vendor->vendor->nama . " - Rp. " . number_format($vendor->harga)
+            ];
+        }
+
+        return response()->json($vendors);
+    });
+});
