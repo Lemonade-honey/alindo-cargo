@@ -35,7 +35,11 @@ Route::prefix("dashboard")->group(function(){
         Route::post("/{invoice}/edit", [InvoiceController::class, "editPost"]);
 
         Route::get("/{invoice}", [InvoiceController::class, "detail"])->name("invoice.detail");
+
         Route::get("{invoice}/cetakResi", [PdfController::class, "cetakResiInvoice"])->name("invoice.cetak.resi");
-        Route::get("/{invoice}/delete", [InvoiceController::class, "deleteInvoice"])->name("invoice.delete");
+
+        Route::get("/{invoice}/delete/invoice", [InvoiceController::class, "deleteInvoice"])->name("invoice.delete");
+        Route::post("/{invoice}/update/status", [InvoiceController::class, "setStatusInvoice"])->name("invoice.status");
+
     });
 });

@@ -236,6 +236,41 @@ class InvoiceController extends Controller
                 "massage" => $th->getMessage()
             ]);
 
+            return redirect(url()->previous())->with("error", "gagal menghapus invoice");
+        }
+    }
+
+    /**
+     * Set Status Invoice
+     */
+    public function setStatusInvoice($invoice, Request $request){
+        $request->validate([
+            "status" => ["required", "in:proses,selesai,batal"],
+            "keterangan" => ["nullable", "max:255"]
+        ]);
+
+        $invoice = Invoice::where("invoice", $invoice)->first();
+
+        abort_if(!$invoice, 404, "data not found");
+
+        try{
+            $invoice->status = $request->input("status");
+            $invoice->keterangan = $request->input("keterangan");
+            $invoice->history = $this->invoiceService->addHistory("update", "update status invoice to " . $request->input("status"), $invoice->history);
+            $invoice->save();
+
+            Log::info("berhasil update status invoice: " . $invoice->invoice . " ke " . $request->input("status"), [
+                "user" => "email user"
+            ]);
+
+            return back()->with("success", "status invoice berhasil diubah");
+        } catch(Throwable $th){
+            Log::error("gagal update status invoice: " . $invoice->invoice, [
+                "class" => get_class(),
+                "function" => __FUNCTION__,
+                "massage" => $th->getMessage()
+            ]);
+
             return dd($th);
         }
     }

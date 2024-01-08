@@ -135,7 +135,7 @@
                         </div>
                         <!-- Modal body -->
                         <div class="p-4 md:p-5 space-y-4">
-                            <form action="#" method="post">
+                            <form action="{{ route('invoice.status', ['invoice' => $invoice->invoice]) }}" method="post">
                                 @csrf
                                 <div class="mb-6">
                                     <label for="status" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
