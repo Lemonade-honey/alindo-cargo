@@ -4,6 +4,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\KotaController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,6 +46,22 @@ Route::prefix("dashboard")->group(function(){
 
         Route::get("/{invoice}/pembayaran", [PaymentController::class, "paymentInvoice"])->name("invoice.pembayaran");
         Route::post("/{invoice}/pembayaran", [PaymentController::class, "paymentInvoicePost"]);
+    });
+
+    Route::prefix("vendors")->group(function(){
+        Route::get("/", [VendorController::class, "index"])->name("vendor");
+        Route::post("/", [VendorController::class, "createPost"]);
+
+        Route::get("/{id}", [VendorController::class, "detail"])->name("vendor.detail");
+        Route::post("/{id}", [VendorController::class, "detailPost"]);
+        Route::post("/{id}/wilayahPost", [VendorController::class, "wilayahPost"])->name("vendor.wilayah.post");
+
+        Route::get("/{id}/deteleVendor", [VendorController::class, "delete"])->name("vendor.delete");
+
+        Route::get("/{id}/wilayah/{id_gabung}", [VendorController::class, "wilayahDetail"])->name("vendor.wilayah.detail");
+        Route::post("/{id}/wilayah/{id_gabung}", [VendorController::class, "wilayahDetailPost"]);
+
+        Route::get("/{id}/wilayah/{id_gabung}/deleteWilayah", [VendorController::class, "wilayahDetailDelete"])->name("vendor.wilayah.delete");
     });
 
     Route::prefix("kota")->group(function(){
