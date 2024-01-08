@@ -165,7 +165,7 @@
             @csrf
             <div class="mb-6">
                 <label for="kota" class="block mb-2 text-sm font-medium text-gray-900">Kota</label>
-                <select name="nama" id="kota" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                <select name="kota" id="kota" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
                     <option></option>
                     @foreach ($kotas as $item)
                         <option value="{{ $item->id }}" @selected($item->id == $vendor->id_kota)>{{ $item->kota }}</option>
