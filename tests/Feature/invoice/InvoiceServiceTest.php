@@ -24,8 +24,27 @@ class InvoiceServiceTest extends TestCase
         $this->assertTrue(true);
     }
 
+    // test logic expired
+    public function testExpired(){
+        $invoice = new \App\Models\invoice\Invoice();
+        $invoice->status = 'proses';
+        $invoice->created_at = "12-12-2023";
+
+        self::assertTrue($this->invoiceService->expired($invoice));
+
+        $invoice->status = 'selesai';
+        self::assertFalse($this->invoiceService->expired($invoice));
+
+        $invoice->status = 'batal';
+        self::assertFalse($this->invoiceService->expired($invoice));
+
+        $invoice->status = 'proses';
+        $invoice->created_at = now();
+        self::assertFalse($this->invoiceService->expired($invoice));
+    }
+
     // membuat data history baru
-    public function testNewHistory(){
+    public function testHistory(){
 
         $history = $this->invoiceService->addHistory("post", "ini keterangan test unit");
 
@@ -49,7 +68,7 @@ class InvoiceServiceTest extends TestCase
     }
 
     // membuat tracking baru
-    public function testNewTracking(){
+    public function testTracking(){
 
         $tracking = $this->invoiceService->addTracking("diterima", "Yogyakarta", "ini deskripsi");
 
