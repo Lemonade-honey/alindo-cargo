@@ -165,7 +165,7 @@
             <div class="flex justify-between">
                 <div class="">
                     <p>Status :
-                        <span class="{{ ($invoice->invoiceCost->status == 'Lunas') ? 'text-green-500' : 'text-red-500' }} font-medium">{{ $invoice->invoiceCost->status }}</span>
+                        <span class="{{ ($invoice->invoiceCost->status == 'lunas') ? 'text-green-500' : 'text-red-500' }} font-medium capitalize">{{ $invoice->invoiceCost->status }}</span>
                     </p>
                     <p>
                         Metode Pembayaran : {{ $invoice->invoiceCost->metode ?? "-" }}
@@ -425,7 +425,7 @@
                 </thead>
                 <tbody>
                     @foreach ($invoice->history as $key => $item)
-                        <tr>
+                        <tr class="hover:bg-gray-50">
                             <td>{{ $key + 1 }}</td>
                             <td>{{ $item["action"] }}</td>
                             <td>{{ $item["keterangan"] }}</td>

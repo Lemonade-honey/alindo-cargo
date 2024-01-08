@@ -83,9 +83,9 @@
             <div class="mb-6">
                 <label for="status" class="block mb-2 text-sm font-medium text-gray-900">Status Pembayaran</label>
                 <select name="status" id="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option value="belum bayar" @selected($invoice->invoiceCost->status == "Belum Bayar")>Belum Bayar</option>
-                    <option value="belum lunas" @selected($invoice->invoiceCost->status == "Belum Lunas")>Belum Lunas</option>
-                    <option value="lunas" @selected($invoice->invoiceCost->status == "Lunas")>Lunas</option>
+                    <option value="belum bayar" @selected($invoice->invoiceCost->status == "belum bayar")>Belum Bayar</option>
+                    <option value="belum lunas" @selected($invoice->invoiceCost->status == "belum lunas")>Belum Lunas</option>
+                    <option value="lunas" @selected($invoice->invoiceCost->status == "lunas")>Lunas</option>
                 </select>
             </div>
             <div class="mb-6">
