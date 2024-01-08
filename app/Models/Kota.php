@@ -16,7 +16,7 @@ class Kota extends Model
     /**
      * Ubah attribut kota menjadi UPPERCASE sebelum disimpan
      */
-    public function setKotaTujuanAttribute($value){
+    public function setKotaAttribute($value){
         $this->attributes['kota'] = strtoupper($value);
     }
 }

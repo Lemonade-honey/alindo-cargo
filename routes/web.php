@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\KotaController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PdfController;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +45,16 @@ Route::prefix("dashboard")->group(function(){
 
         Route::get("/{invoice}/pembayaran", [PaymentController::class, "paymentInvoice"])->name("invoice.pembayaran");
         Route::post("/{invoice}/pembayaran", [PaymentController::class, "paymentInvoicePost"]);
+    });
+
+    Route::prefix("kota")->group(function(){
+        Route::get("/", [KotaController::class, "index"])->name("kota");
+        Route::post("/", [KotaController::class, "createPost"])->name("kota.create.post");
+
+        Route::get("/{id}/detail", [KotaController::class, "detail"])->name("kota.detail");
+        Route::post("/{id}/detail", [KotaController::class, "detailPost"]);
+
+        Route::get("/{id}/deleteKota", [KotaController::class, "delete"])->name("kota.delete");
     });
 
     Route::prefix("view")->group(function(){
