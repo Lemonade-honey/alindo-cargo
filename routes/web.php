@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PdfController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,5 +35,6 @@ Route::prefix("dashboard")->group(function(){
         Route::post("/{invoice}/edit", [InvoiceController::class, "editPost"]);
 
         Route::get("/{invoice}", [InvoiceController::class, "detail"])->name("invoice.detail");
+        Route::get("{invoice}/cetakResi", [PdfController::class, "cetakResiInvoice"])->name("invoice.cetak.resi");
     });
 });
