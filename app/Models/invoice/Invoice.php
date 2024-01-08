@@ -19,6 +19,7 @@ class Invoice extends Model
     {
         parent::boot();
 
+        // saat create data
         static::creating(function ($model) {
             // Mendapatkan tanggal saat ini dengan format dd-mm-yy
             $currentDate = now()->format('dmy');
@@ -31,6 +32,14 @@ class Invoice extends Model
 
             // Menghasilkan invoice baru
             $model->invoice = $currentDate . sprintf('%04d', $increment);
+        });
+
+        // hapus data dengan semua relasinya
+        static::deleting(function($model){
+            $model->invoiceData->delete();
+            $model->invoicePerson->delete();
+            $model->invoiceCost->delete();
+            $model->invoiceTracking->delete();
         });
     }
 

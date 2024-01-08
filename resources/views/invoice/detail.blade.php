@@ -52,6 +52,7 @@
                                 if (value != "{{ $invoice->invoice }}") return "Data tidak sama";
 
                                 if(value == "{{ $invoice->invoice }}"){
+                                    window.location = "{{ route('invoice.delete', ['invoice' => $invoice->invoice]) }}";
                                     return;
                                 }
                             }

@@ -36,5 +36,6 @@ Route::prefix("dashboard")->group(function(){
 
         Route::get("/{invoice}", [InvoiceController::class, "detail"])->name("invoice.detail");
         Route::get("{invoice}/cetakResi", [PdfController::class, "cetakResiInvoice"])->name("invoice.cetak.resi");
+        Route::get("/{invoice}/delete", [InvoiceController::class, "deleteInvoice"])->name("invoice.delete");
     });
 });

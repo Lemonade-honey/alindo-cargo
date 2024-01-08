@@ -209,4 +209,34 @@ class InvoiceController extends Controller
 
         return view("invoice.detail", compact("invoice"));
     }
+
+    /**
+     * GET delete invoice
+     * 
+     * path untuk menghapus invoice
+     */
+    public function deleteInvoice($invoice){
+        $invoice = Invoice::where("invoice", $invoice)->first();
+
+        abort_if(!$invoice, 404, "data not found");
+
+        try{
+            $invoiceKode = $invoice->invoice;
+            $invoice->delete();
+
+            Log::info("berhasil menghapus invoice: $invoiceKode", [
+                "user" => "email"
+            ]);
+
+            return redirect()->route('invoice')->with("success", "berhasil menghapus invoice: $invoiceKode");
+        } catch (Throwable $th){
+            Log::error("gagal hapus invoice: " . $invoice->invoice, [
+                "class" => get_class(),
+                "function" => __FUNCTION__,
+                "massage" => $th->getMessage()
+            ]);
+
+            return dd($th);
+        }
+    }
 }
