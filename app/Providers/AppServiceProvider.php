@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use App\Service\ImageGenServiceInteface;
+use App\Service\Impl\ImageGenServiceImpl;
 use App\Service\Impl\InvoiceServiceImp;
+use App\Service\Impl\PdfServiceImpl;
 use App\Service\InvoiceServiceInterface;
+use App\Service\PdfServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
     {
         // invoice service
         $this->app->bind(InvoiceServiceInterface::class, InvoiceServiceImp::class);
+        $this->app->bind(PdfServiceInterface::class, PdfServiceImpl::class);
+        $this->app->bind(ImageGenServiceInteface::class, ImageGenServiceImpl::class);
     }
 
     /**
