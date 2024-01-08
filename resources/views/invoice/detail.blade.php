@@ -171,7 +171,7 @@
                         Metode Pembayaran : {{ $invoice->invoiceCost->metode ?? "-" }}
                     </p>
                     <p>Bukti Transaksi : 
-                        <a href="#" class="text-blue-500 underline hover:text-blue-700">{{ $invoice->invoiceCost->bukti }}</a>
+                        <a href="{{ route('view.transaksi', ['file' => $invoice->invoiceCost->bukti]) }}" target="__blank" class="text-blue-500 underline hover:text-blue-700">{{ $invoice->invoiceCost->bukti }}</a>
                     </p>
                 </div>
                 <div class="">
@@ -179,7 +179,7 @@
                 </div>
             </div>
             <div class="mt-5 flex justify-end">
-                <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2">Set Ulang</a>
+                <a href="{{ route('invoice.pembayaran', ['invoice' => $invoice->invoice]) }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2">Set Ulang</a>
             </div>
         </div>
     </div>

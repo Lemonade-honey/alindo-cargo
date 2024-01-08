@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PdfController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,5 +42,11 @@ Route::prefix("dashboard")->group(function(){
         Route::get("/{invoice}/delete/invoice", [InvoiceController::class, "deleteInvoice"])->name("invoice.delete");
         Route::post("/{invoice}/update/status", [InvoiceController::class, "setStatusInvoice"])->name("invoice.status");
 
+        Route::get("/{invoice}/pembayaran", [PaymentController::class, "paymentInvoice"])->name("invoice.pembayaran");
+        Route::post("/{invoice}/pembayaran", [PaymentController::class, "paymentInvoicePost"]);
+    });
+
+    Route::prefix("view")->group(function(){
+        Route::get("/transaksi/{file}", [PaymentController::class, "viewTransaksi"])->name("view.transaksi");
     });
 });
