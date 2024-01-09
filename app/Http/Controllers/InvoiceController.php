@@ -206,7 +206,7 @@ class InvoiceController extends Controller
      */
     public function detail($invoice){
 
-        $invoice = Invoice::where("invoice", $invoice)->first();
+        $invoice = Invoice::with("invoiceData", "invoiceCost", "invoicePerson","invoiceVendors", "invoiceTracking")->where("invoice", $invoice)->first();
 
         $invoice->vendors = $this->invoiceService->listVendor($invoice);
 
