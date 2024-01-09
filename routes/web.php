@@ -4,6 +4,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\KotaController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
 
@@ -78,6 +79,18 @@ Route::prefix("dashboard")->group(function(){
         Route::post("/{id}/detail", [KotaController::class, "detailPost"]);
 
         Route::get("/{id}/deleteKota", [KotaController::class, "delete"])->name("kota.delete");
+    });
+
+    Route::prefix("users")->group(function(){
+        Route::get("/", [UserController::class, "index"])->name("user");
+        Route::post("/", [UserController::class, "createPost"]);
+        Route::get("/detail/{uid}", [UserController::class, "detail"])->name("user.detail");
+        
+        Route::post("/detail/{uid}/akunPost", [UserController::class, "updateAkunPost"])->name("user.akun.post");
+        Route::post("/detail/{uid}/passwordReset", [UserController::class, "updatePasswordPost"])->name("user.password.post");
+        Route::post("/detail/{uid}/akunBlock", [UserController::class, "updateBlockPost"])->name("user.block.post");
+        
+        Route::get("/{id}/deleteUser", [UserController::class, "deleteUser"])->name("user.delete");
     });
 
     Route::prefix("view")->group(function(){

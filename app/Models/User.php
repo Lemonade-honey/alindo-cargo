@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -23,12 +24,29 @@ class User extends Authenticatable
         'password',
     ];
 
+    // Start Point
+    protected static function boot()
+    {
+        // mengambil dari class Model
+        parent::boot();
+
+        static::creating(function ($model) {
+            do{
+                $userUUid = Str::random(5) . "-" . Str::random(5);
+            } while(static::where('user_uid', $userUUid)->exists());
+
+            $model->user_uid = $userUUid;
+            
+        });
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
     protected $hidden = [
+        'user_uuid',
         'password',
         'remember_token',
     ];
