@@ -106,7 +106,7 @@ class InvoiceServiceImp implements InvoiceServiceInterface{
                 "total_vendor" => ($invoice->invoiceData->berat * $vendor->harga)
             ];
 
-            $totalBiayaVendor =+ ($invoice->invoiceData->berat * $vendor->harga);
+            $totalBiayaVendor += ($invoice->invoiceData->berat * $vendor->harga);
         }
 
         return ["vendors" => $vendors ?? [], "total-harga" => $totalBiayaVendor];
