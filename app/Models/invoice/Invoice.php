@@ -75,4 +75,8 @@ class Invoice extends Model
     public function invoiceTracking(){
         return $this->hasOne(InvoiceTracking::class, "id_invoice", "id");
     }
+
+    public function invoiceVendors(){
+        return $this->belongsToMany(\App\Models\vendor\VendorDetail::class, "vendor_invoices", "id_invoice", "id_vendor_details");
+    }
 }

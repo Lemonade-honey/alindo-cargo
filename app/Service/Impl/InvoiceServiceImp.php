@@ -92,4 +92,23 @@ class InvoiceServiceImp implements InvoiceServiceInterface{
             ]
         ];
     }
+
+    public function listVendor(\App\Models\invoice\Invoice $invoice): array{
+
+        (int) $totalBiayaVendor = 0;
+
+        foreach($invoice->invoiceVendors as $vendor){
+            $vendors[] = [
+                "id" => $vendor->id,
+                "nama_vendor" => $vendor->vendor->nama,
+                "kota_vendor" => $vendor->kota->kota,
+                "harga_vendor" => $vendor->harga,
+                "total_vendor" => ($invoice->invoiceData->berat * $vendor->harga)
+            ];
+
+            $totalBiayaVendor =+ ($invoice->invoiceData->berat * $vendor->harga);
+        }
+
+        return ["vendors" => $vendors ?? [], "total-harga" => $totalBiayaVendor];
+    }
 }

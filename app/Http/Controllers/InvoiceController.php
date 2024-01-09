@@ -14,6 +14,7 @@ use App\Service\InvoiceServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Throwable;
 
 class InvoiceController extends Controller
@@ -207,6 +208,8 @@ class InvoiceController extends Controller
 
         $invoice = Invoice::where("invoice", $invoice)->first();
 
+        $invoice->vendors = $this->invoiceService->listVendor($invoice);
+
         return view("invoice.detail", compact("invoice"));
     }
 
@@ -272,6 +275,114 @@ class InvoiceController extends Controller
             ]);
 
             return dd($th);
+        }
+    }
+
+    /**
+     * SET Vendor Invoice
+     */
+    public function vendorInvoice($invoice){
+
+        $invoice = Invoice::with("invoiceData", "invoiceVendors.vendor")->where("invoice", $invoice)->first();
+
+        abort_if(!$invoice, 404);
+
+        $invoice->vendors = $this->invoiceService->listVendor($invoice);
+
+        $kota = Kota::orderBy("kota")->get();
+
+        return view("invoice.vendor", compact("invoice", "kota"));
+    }
+
+    public function vendorInvoicePost($invoice, Request $request){
+
+        $invoice = Invoice::where("invoice", $invoice)->first();
+
+        abort_if(!$invoice, 404, "Invoice Not Found");
+
+        $request->validate([
+            "kota-vendor" => "required",
+            "id-vendor" => ["required",
+                // validasi data di table relasi
+                Rule::unique("vendor_invoices", "id_vendor_details")->where(function($query) use ($request, $invoice){
+                    return $query->where('id_vendor_details', '=', $request->input("id-vendor"))
+                    ->where('id_invoice', '=', $invoice->id);
+                })
+            ]
+        ],[
+            "id-vendor.unique" => "Vendor sudah terdaftar di list."
+        ]);
+
+        try{
+            DB::beginTransaction();
+
+            \App\Models\vendor\VendorInvoice::create([
+                "id_invoice" => $invoice->id,
+                "id_vendor_details" => $request->input("id-vendor")
+            ]);
+
+            $invoice->history = $this->invoiceService->addHistory("update", "tambah vendor pada invoice", $invoice->history);
+            $invoice->save();
+
+            DB::commit();
+
+            Log::info("invoice vendor berhasil ditambahkan. invoice: " . $invoice->invoice, [
+                "user" => "email"
+            ]);
+
+            return back()->with("success", "vendor berhasil ditambahkan");
+        } catch (Throwable $th){
+            DB::rollBack();
+            Log::error("invoice vendor gagal ditambahkan. invoice: " . $invoice->invoice, [
+                "class" => get_class(),
+                "function" => __FUNCTION__,
+                "massage" => $th->getMessage()
+            ]);
+
+            dd($th);
+            return back()->with("error", "vendor gagal ditambahkan");
+        }
+    }
+
+    public function vendorInvoiceDelete($invoice, $idVendorInvoice){
+
+        $invoice = Invoice::where("invoice", $invoice)->first();
+
+        $vendorInvoice = \App\Models\vendor\VendorInvoice::with("invoice")->where("id_invoice", $invoice->id)
+        ->where("id_vendor_details", $idVendorInvoice)->first();
+
+        abort_if(!$vendorInvoice || !$invoice, 404);
+
+        try{
+            DB::beginTransaction();
+
+            // update history invoice
+            $vendorInvoice->invoice()->update([
+                "history" => $this->invoiceService->addHistory("delete", "hapus invoice vendor. vendor-id: " . $vendorInvoice->id_vendor_details, $vendorInvoice->invoice->history)
+            ]);
+
+            // delete relasi
+            $vendorInvoice->delete();
+
+            DB::commit();
+
+            Log::info("invoice vendor dihapus", [
+                "user" => "email"
+            ]);
+
+            return redirect(url()->previous())->with("success", "berhasil menghapus vendor invoice");
+        } catch(Throwable $th){
+            DB::rollBack();
+
+            Log::error("invoice vendor gagal dihapus. invoice: $invoice->invoice", [
+                "class" => get_class(),
+                "function" => __FUNCTION__,
+                "massage" => $th->getMessage()
+            ]);
+
+            dd($th);
+
+            return redirect(url()->previous())->with("error", "gagal menghapus vendor");
         }
     }
 }

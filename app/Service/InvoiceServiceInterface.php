@@ -35,4 +35,11 @@ interface InvoiceServiceInterface{
      * Invoice Tracking Service
      */
     public function addTracking(string $status, string $location, string $deskripsi, ?array $tracking = null): array;
+
+    /**
+     * List Vendor pada Invoice
+     * 
+     * @requires Invoice relation with VendorInvoice
+     */
+    public function listVendor(Invoice $invoice): array;
 }

@@ -46,6 +46,12 @@ Route::prefix("dashboard")->group(function(){
 
         Route::get("/{invoice}/pembayaran", [PaymentController::class, "paymentInvoice"])->name("invoice.pembayaran");
         Route::post("/{invoice}/pembayaran", [PaymentController::class, "paymentInvoicePost"]);
+
+        // vendor relation
+        Route::get("/{invoice}/vendors", [InvoiceController::class, "vendorInvoice"])->name("invoice.vendor");
+        Route::post("/{invoice}/vendors", [InvoiceController::class, "vendorInvoicePost"]);
+
+        Route::get("/{invoice}/vendors/delete/{id}", [InvoiceController::class, "vendorInvoiceDelete"])->name("invoice.vendor.delete");
     });
 
     Route::prefix("vendors")->group(function(){

@@ -171,7 +171,9 @@
                         Metode Pembayaran : {{ $invoice->invoiceCost->metode ?? "-" }}
                     </p>
                     <p>Bukti Transaksi : 
+                        @if ($invoice->invoiceCost->bukti)
                         <a href="{{ route('view.transaksi', ['file' => $invoice->invoiceCost->bukti]) }}" target="__blank" class="text-blue-500 underline hover:text-blue-700">{{ $invoice->invoiceCost->bukti }}</a>
+                        @endif
                     </p>
                 </div>
                 <div class="">
@@ -315,11 +317,11 @@
     {{-- Vendor Invoice Start --}}
     <div class="w-full my-2 p-4 border border-gray-100 rounded-lg shadow">
         <p class="mb-2 font-medium">Vendor Invoice</p>
-        {{-- @if (!$invoice->invoiceVendor()->count() > 0)
+        @if (!$invoice->invoiceVendors()->count() > 0)
         <div class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-100" role="alert">
             <span class="font-medium">Warning!</span> Vendor Invoice Set Empty.
         </div>
-        @endif --}}
+        @endif
         
         <div class="relative overflow-x-auto">
             <table id="vendor-invoice" class="w-full text-sm text-left rtl:text-right text-gray-500 ">
@@ -343,7 +345,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- @foreach ($invoice->vendors["vendor"] as $key => $value)
+                    @foreach ($invoice->vendors["vendors"] as $key => $value)
                     <tr class="bg-white border-b">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                             {{ $key + 1 }}
@@ -361,14 +363,14 @@
                             Rp. {{ number_format($value["total_vendor"]) }}
                         </td>
                     </tr>
-                    @endforeach --}}
+                    @endforeach
                 </tbody>
             </table>
-            {{-- <p class="mt-5">Total Harga Vendor : <span class="font-medium">Rp. {{ number_format($invoice->vendors["total_harga"]) ?? 0 }}</span></p> --}}
+            <p class="mt-5">Total Harga Vendor : <span class="font-medium">Rp. {{ number_format($invoice->vendors["total-harga"]) ?? 0 }}</span></p>
         </div>
 
         <div class="mt-5">
-            <a href="#" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Kelola Vendor</a>
+            <a href="{{ route('invoice.vendor', ['invoice' => $invoice->invoice]) }}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Kelola Vendor</a>
         </div>
     </div>
     {{-- Vendor Invoice End --}}

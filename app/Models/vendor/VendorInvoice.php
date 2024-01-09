@@ -19,4 +19,8 @@ class VendorInvoice extends Model
     public function hasVendor(){
         return $this->belongsToMany(VendorDetail::class, "id_vendor_details", "id");
     }
+
+    public function invoice(){
+        return $this->belongsTo(\App\Models\invoice\Invoice::class, "id_invoice", "id");
+    }
 }

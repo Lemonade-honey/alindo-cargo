@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('vendor_invoices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("id_invoice")->constrained("invoices");
-            $table->foreignId("id_vendor_details")->constrained("vendor_details");
+            $table->foreignId("id_invoice");
+            $table->foreignId("id_vendor_details");
             $table->timestamps();
         });
     }

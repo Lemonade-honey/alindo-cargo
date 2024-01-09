@@ -6,7 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\invoice\Invoice;
 use App\Models\Kota;
-use App\Models\Member;
+use App\Models\member\Member;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Kota::factory(5)->create();
-        Member::factory(10)->create();
         Invoice::factory(30)->create();
     }
 }
