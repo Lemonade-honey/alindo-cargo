@@ -11,9 +11,11 @@ use Throwable;
 class LaporanController extends Controller
 {
     private \App\Service\LaporanServiceInterface $laporanService;
+    private \App\Service\SpreadsheetServiceInterface $spreadSheetService;
 
-    public function __construct(\App\Service\LaporanServiceInterface $laporanServiceInterface){
+    public function __construct(\App\Service\LaporanServiceInterface $laporanServiceInterface, \App\Service\SpreadsheetServiceInterface $spreadsheetServiceInterface){
         $this->laporanService = $laporanServiceInterface;
+        $this->spreadSheetService = $spreadsheetServiceInterface;
     }
 
     public function index(){
@@ -71,6 +73,76 @@ class LaporanController extends Controller
 
         // dd($statistik);
 
-        return view("laporan.detail", compact("invoices", "statistik"));
+        return view("laporan.detail", compact("invoices", "statistik", "tanggal"));
+    }
+
+    public function deleteLaporan($tanggal){
+        $laporan = Laporan::where("tanggal", date('Y-m-d', strtotime($tanggal)))->first();
+
+        abort_if(!$laporan, 404);
+
+        try{
+
+            $nama = date('F Y', strtotime($laporan->tanggal));
+            $laporan->delete();
+
+            Log::info("laporan $nama berhasil dihapus", [
+                "user" => "email"
+            ]);
+
+            return redirect()->route('laporan')->with("success", "laporan berhasil di hapus");
+        } catch(Throwable $th){
+            Log::error("laporan gagal dihapus", [
+                "class" => get_class(),
+                "function" => __FUNCTION__,
+                "massage" => $th->getMessage()
+            ]);
+
+            return redirect(url()->previous())->with("error", "laporan gagal di hapus");
+        }
+    }
+
+    public function downloadLaporanSpreadsheet($tanggal){
+        $laporan = Laporan::where("tanggal", date('Y-m-d', strtotime($tanggal)))->first();
+
+        abort_if(!$laporan, 404);
+
+        $invoices = \App\Models\invoice\Invoice::whereMonth("created_at", date('m', strtotime($laporan->tanggal)))
+        ->whereYear("created_at", date('Y', strtotime($laporan->tanggal)))
+        ->orderBy("id","desc")
+        ->limit(100)
+        ->get();
+        
+        try{
+
+            $filename = $this->spreadSheetService->createSpreadsheet($this->spreadSheetService->laporanToSpreadsheet($invoices, $tanggal), date('F Y', strtotime($tanggal)));
+
+            if(file_exists(public_path("temp/$filename"))){
+
+                readfile(public_path("temp/$filename"));
+                unlink(public_path("temp/$filename"));
+
+                Log::info("laporan berhasil dicetak dan dihapus", [
+                    "user" => "email"
+                ]);
+
+                return redirect(url()->previous())->with("success", "laporan berhasil di download");
+            }
+
+            Log::warning("laporan $laporan->tanggal berhasil dicetak, tapi gagal dihapus", [
+                "user" => "email",
+                "laporan" => date('F Y', strtotime($tanggal))
+            ]);
+
+            return redirect(url()->previous())->with("warning", "laporan gagal di download, namun tersimpan di storage temporary. hubungi admin !");
+        } catch(Throwable $th){
+            Log::error("laporan gagal dicetak ke spreadsheet", [
+                "class" => get_class(),
+                "function" => __FUNCTION__,
+                "massage" => $th->getMessage()
+            ]);
+
+            return redirect(url()->previous())->with("error", "laporan gagal di download");
+        }
     }
 }

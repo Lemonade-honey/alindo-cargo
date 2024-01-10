@@ -98,6 +98,9 @@ Route::prefix("dashboard")->group(function(){
         Route::get("/", [LaporanController::class, "index"])->name("laporan");
         Route::post("/", [LaporanController::class, "createPost"]);
         Route::get("/detail/{tanggal}", [LaporanController::class, "detail"])->name("laporan.detail");
+        Route::get("/detail/{tanggal}/download", [LaporanController::class, "downloadLaporanSpreadsheet"])->name("laporan.detail.download");
+
+        Route::get("/detail/{tanggal}/deletelaporan", [LaporanController::class, "deleteLaporan"])->name("laporan.delete");
     });
 
     Route::prefix("view")->group(function(){

@@ -25,7 +25,7 @@
                 confirmButtonText: "Yes"
             }).then((result) => {
                 if(result.isConfirmed){
-                    Swal.fire("anjas hapus")
+                    window.location = "{{ route('laporan.delete', ['tanggal' => $tanggal]) }}"
                 }
             });
         })
@@ -50,7 +50,7 @@
                     <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
                     </svg>
-                    <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2">Detail</span>
+                    <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2">{{ date('F Y', strtotime($tanggal)) }}</span>
                 </div>
             </li>
         </ol>
@@ -79,7 +79,7 @@
         <div class="">
             <div class="mb-3 flex justify-between">
                 <p>Target bulan laporan ini</p>
-                <p>{{ date('F Y', strtotime($statistik['target-tanggal'])) }}</p>
+                <p>{{ date('F Y d', strtotime($statistik['target-tanggal'])) }}</p>
             </div>
             <div class="mb-3 flex justify-between">
                 <p>Total Invoice</p>
@@ -95,7 +95,7 @@
 
     <div class="flex justify-end mt-5 gap-4">
         <button type="button" id="btnDelete" class="text-white bg-red-700 hover:bg-red-900 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2">Hapus Laporan</button>
-        <a href="#" class="text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2">Download</a>
+        <a href="{{ route('laporan.detail.download', ['tanggal' => $tanggal]) }}" class="text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2">Download</a>
     </div>
 </div>
 
