@@ -32,7 +32,7 @@ class InvoiceController extends Controller
      */
     public function index(){
 
-        $invoices = Invoice::with("invoicePerson", "invoiceCost")->orderBy("id", "desc")->paginate(10);
+        $invoices = Invoice::with("invoicePerson", "invoiceData", "invoiceCost")->orderBy("id", "desc")->paginate(10);
 
         // set every invoice expired date
         $invoices->map(function($invoice){
@@ -127,7 +127,7 @@ class InvoiceController extends Controller
      * GET edit invoice
      */
     public function edit($invoice){
-        $invoice = Invoice::where("invoice", $invoice)->first();
+        $invoice = Invoice::with("invoicePerson", "invoiceData", "invoiceCost")->where("invoice", $invoice)->first();
 
         abort_if(!$invoice, 404, "data not found");
 
@@ -206,7 +206,8 @@ class InvoiceController extends Controller
      */
     public function detail($invoice){
 
-        $invoice = Invoice::with("invoiceData", "invoiceCost", "invoicePerson","invoiceVendors", "invoiceTracking")->where("invoice", $invoice)->first();
+        $invoice = Invoice::with("invoiceData", "invoiceCost", "invoicePerson", "invoiceVendors.vendor",
+        "invoiceVendors.kota", "invoiceTracking")->where("invoice", $invoice)->first();
 
         $invoice->vendors = $this->invoiceService->listVendor($invoice);
 

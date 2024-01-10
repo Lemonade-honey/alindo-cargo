@@ -60,18 +60,14 @@ class LaporanController extends Controller
 
         abort_if(!$laporan, 404);
 
-        $invoices = \App\Models\invoice\Invoice::whereMonth("created_at", date('m', strtotime($laporan->tanggal)))
+        $invoices = \App\Models\invoice\Invoice::with("invoicePerson", "invoiceData", "invoiceCost", "invoiceVendors")->whereMonth("created_at", date('m', strtotime($laporan->tanggal)))
         ->whereYear("created_at", date('Y', strtotime($laporan->tanggal)))
         ->orderBy("id","desc")
-        ->limit(100)
         ->get();
-
 
         $invoices = $this->laporanService->dataInvoiceBulan($invoices);
 
         $statistik = $this->laporanService->statistikLaporanInvoiceBulan($invoices);
-
-        // dd($statistik);
 
         return view("laporan.detail", compact("invoices", "statistik", "tanggal"));
     }

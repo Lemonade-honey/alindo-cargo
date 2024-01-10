@@ -69,10 +69,10 @@
                         {{ $invoice->tujuan }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $invoice->InvoicePerson->pengirim }}
+                        {{ $invoice->invoicePerson->pengirim }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $invoice->InvoiceCost->status }}
+                        {{ $invoice->invoiceCost->status }}
                     </td>
                     <td class="px-6 py-4">
                         {{ $invoice->status }}

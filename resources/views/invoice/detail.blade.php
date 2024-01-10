@@ -317,7 +317,7 @@
     {{-- Vendor Invoice Start --}}
     <div class="w-full my-2 p-4 border border-gray-100 rounded-lg shadow">
         <p class="mb-2 font-medium">Vendor Invoice</p>
-        @if (!$invoice->invoiceVendors()->count() > 0)
+        @if (!$invoice->invoiceVendors->count() > 0)
         <div class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-100" role="alert">
             <span class="font-medium">Warning!</span> Vendor Invoice Set Empty.
         </div>
