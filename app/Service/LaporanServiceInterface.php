@@ -13,10 +13,10 @@ interface LaporanServiceInterface{
      *  ["total-invoice"]
      *  ["total-warning-invoice"]
      */
-    public function statistikLaporanInvoiceBulan(\App\Models\invoice\Invoice $invoices): array;
+    public function statistikLaporanInvoiceBulan(\Illuminate\Database\Eloquent\Collection $invoices): array;
 
     /**
      * data invoice bulanan
      */
-    public function dataInvoiceBulan(\App\Models\invoice\Invoice $invoices);
+    public function dataInvoiceBulan(\Illuminate\Database\Eloquent\Collection $invoices): \Illuminate\Database\Eloquent\Collection;
 }

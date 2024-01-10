@@ -38,7 +38,7 @@ class LaporanServiceImpl implements LaporanServiceInterface{
         return $statistik;
     }
 
-    public function dataInvoiceBulan($invoices){
+    public function dataInvoiceBulan($invoices): \Illuminate\Database\Eloquent\Collection{
         $invoices = $invoices->each(function($invoice){
             // status invoice
             if($this->invoiceService->expired($invoice)){
