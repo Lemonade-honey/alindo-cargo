@@ -284,7 +284,7 @@ class InvoiceController extends Controller
      */
     public function vendorInvoice($invoice){
 
-        $invoice = Invoice::with("invoiceData", "invoiceVendors.vendor")->where("invoice", $invoice)->first();
+        $invoice = Invoice::with("invoiceData", "invoiceVendors.vendor", "invoiceVendors.kota")->where("invoice", $invoice)->first();
 
         abort_if(!$invoice, 404);
 
