@@ -22,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PdfServiceInterface::class, PdfServiceImpl::class);
         $this->app->bind(ImageGenServiceInteface::class, ImageGenServiceImpl::class);
         $this->app->bind(\App\Service\LaporanServiceInterface::class, \App\Service\Impl\LaporanServiceImpl::class);
+        $this->app->bind(\App\Service\SpreadsheetServiceInterface::class, \App\Service\Impl\SpreadsheetServiceImpl::class);
     }
 
     /**
