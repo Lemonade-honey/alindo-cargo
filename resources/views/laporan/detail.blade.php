@@ -79,7 +79,7 @@
         <div class="">
             <div class="mb-3 flex justify-between">
                 <p>Target bulan laporan ini</p>
-                <p>{{ date('F Y d', strtotime($statistik['target-tanggal'])) }}</p>
+                <p>{{ date('F Y', strtotime($statistik['target-tanggal'])) }}</p>
             </div>
             <div class="mb-3 flex justify-between">
                 <p>Total Invoice</p>

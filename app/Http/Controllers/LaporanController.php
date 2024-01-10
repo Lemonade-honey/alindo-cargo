@@ -35,7 +35,7 @@ class LaporanController extends Controller
 
         try{
             $laporan = Laporan::create([
-                "tanggal" => $request->input("tanggal")
+                "tanggal" => date('Y-m-d', strtotime($request->input("tanggal")))
             ]);
 
             Log::info("laporan tanggal $laporan->tanggal berhasil dibuat", [
