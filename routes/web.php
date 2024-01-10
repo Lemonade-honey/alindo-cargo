@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\KotaController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\UserController;
@@ -91,6 +92,12 @@ Route::prefix("dashboard")->group(function(){
         Route::post("/detail/{uid}/akunBlock", [UserController::class, "updateBlockPost"])->name("user.block.post");
         
         Route::get("/{id}/deleteUser", [UserController::class, "deleteUser"])->name("user.delete");
+    });
+
+    Route::prefix("laporan")->group(function(){
+        Route::get("/", [LaporanController::class, "index"])->name("laporan");
+        Route::post("/", [LaporanController::class, "createPost"]);
+        Route::get("/detail/{tanggal}", [LaporanController::class, "detail"])->name("laporan.detail");
     });
 
     Route::prefix("view")->group(function(){

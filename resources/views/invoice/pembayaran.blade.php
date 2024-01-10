@@ -94,7 +94,9 @@
             </div>
             <div class="mb-6">
                 <label class="block mb-2 text-sm font-medium text-gray-900">Bukti Gambar</label>
+                @if ($invoice->invoiceCost->bukti)
                 <a href="{{ route('view.transaksi', ['file' => $invoice->invoiceCost->bukti]) }}" class="text-blue-500 hover:underline" target="_blank">{{ $invoice->invoiceCost->bukti }}</a>
+                @endif
             </div>
             <div class="mb-6">
                 <label for="bukti" class="block mb-2 text-sm font-medium text-gray-900">Upload Bukti Pembayaran (max 6MB)</label>
