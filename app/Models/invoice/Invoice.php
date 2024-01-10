@@ -61,19 +61,19 @@ class Invoice extends Model
      * Relation this table
      */
     public function invoiceData(){
-        return $this->hasOne(InvoiceData::class, "id_invoice", "id");
+        return $this->belongsTo(InvoiceData::class, "id", "id_invoice");
     }
 
     public function invoiceCost(){
-        return $this->hasOne(InvoiceCost::class, "id_invoice", "id");
+        return $this->belongsTo(InvoiceCost::class, "id", "id_invoice");
     }
 
     public function invoicePerson(){
-        return $this->hasOne(InvoicePerson::class, "id_invoice", "id");
+        return $this->belongsTo(InvoicePerson::class, "id", "id_invoice");
     }
 
     public function invoiceTracking(){
-        return $this->hasOne(InvoiceTracking::class, "id_invoice", "id");
+        return $this->belongsTo(InvoiceTracking::class, "id", "id_invoice");
     }
 
     public function invoiceVendors(){
