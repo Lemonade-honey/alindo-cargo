@@ -56,7 +56,7 @@
                     <span class="ms-3">Dashboard</span>
                 </a>
             </li>
-            @can('invoice list')
+            @can('invoice')
             <li>
                 <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
                     <i class="fa-solid fa-file-invoice text-gray-500 text-2xl"></i>
@@ -69,15 +69,37 @@
                     <li>
                         <a href="{{ route('invoice') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100">List Invoice</a>
                     </li>
-                    @can('invoice create')
                     <li>
                         <a href="{{ route('invoice.create') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100">Tambah Invoice</a>
                     </li>
-                    @endcan
                 </ul>
             </li>
             @endcan
-            @can('user list')
+            @can('kota')
+            <li>
+                <a href="{{ route('kota') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <i class="fa-solid fa-city text-gray-500"></i>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Kota</span>
+                </a>
+            </li>
+            @endcan
+            @can('vendor')
+            <li>
+                <a href="{{ route('vendor') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <i class="fa-solid fa-truck-fast text-gray-500"></i>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Vendor</span>
+                </a>
+            </li>
+            @endcan
+            @can('laporan')
+            <li>
+                <a href="{{ route('laporan') }}" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-gray-100 group">
+                    <i class="fa-solid fa-flag"></i>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Laporan</span>
+                </a>
+            </li>
+            @endcan
+            @can('user')
             <li>
                 <a href="{{ route('user') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                     <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
@@ -87,31 +109,7 @@
                 </a>
             </li>
             @endcan
-            @can('kota list')
-            <li>
-                <a href="{{ route('kota') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <i class="fa-solid fa-city text-gray-500"></i>
-                    <span class="flex-1 ms-3 whitespace-nowrap">Kota</span>
-                </a>
-            </li>
-            @endcan
-            @can('vendor list')
-            <li>
-                <a href="{{ route('vendor') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <i class="fa-solid fa-truck-fast text-gray-500"></i>
-                    <span class="flex-1 ms-3 whitespace-nowrap">Vendor</span>
-                </a>
-            </li>
-            @endcan
-            @can('laporan list')
-            <li>
-                <a href="{{ route('laporan') }}" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-gray-100 group">
-                    <i class="fa-solid fa-flag"></i>
-                    <span class="flex-1 ms-3 whitespace-nowrap">Laporan</span>
-                </a>
-            </li>
-            @endcan
-            @can('role list')
+            @can('role')
             <li>
                 <a href="{{ route('role') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                     <i class="fa-solid fa-gear text-gray-500"></i>
