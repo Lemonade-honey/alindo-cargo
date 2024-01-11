@@ -4,9 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\invoice\Invoice;
 use App\Models\Kota;
-use App\Models\member\Member;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,7 +14,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Kota::factory(5)->create();
-        Invoice::factory(300)->create();
+        if(config("app.env") == "local"){
+            Kota::factory(5)->create();
+            $this->call(InvoiceSeeder::class);
+        }
+
+        $this->call(PermissionSeeder::class);
+        $this->call(UserSeeder::class);
     }
 }
