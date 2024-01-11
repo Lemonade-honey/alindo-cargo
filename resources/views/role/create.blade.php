@@ -116,6 +116,17 @@
                 </div>
             </div>
             <div class="px-3 py-1 border border-gray-100 shadow rounded-sm">
+                <label for="nama" class="block mb-2 text-sm font-medium text-gray-900">Costumer Permission</label>
+                <div class="mb-4 flex items-center gap-2">
+                    <input type="checkbox" name="permission[]" id="costumer" value="costumer">
+                    <label for="costumer" class="cursor-pointer text-sm">Costumer</label>
+                </div>
+                <div class="mb-4 flex items-center gap-2">
+                    <input type="checkbox" name="permission[]" id="costumer-kelola" value="costumer-kelola">
+                    <label for="costumer-kelola" class="cursor-pointer text-sm">Costumer Kelola</label>
+                </div>
+            </div>
+            <div class="px-3 py-1 border border-gray-100 shadow rounded-sm">
                 <label for="nama" class="block mb-2 text-sm font-medium text-gray-900">Role Permission</label>
                 <div class="mb-4 flex items-center gap-2">
                     <input type="checkbox" name="permission[]" id="role" value="role">
