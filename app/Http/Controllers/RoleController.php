@@ -33,7 +33,7 @@ class RoleController extends Controller
             $role->givePermissionTo($request->input("permission"));
 
             DB::commit();
-            return redirect()->route("role")->with("success", "berhasil membuat role baru");
+            return redirect()->route("role.detail", ['role' => $role->name])->with("success", "berhasil membuat role baru");
         } catch(Throwable $th){
             DB::rollBack();
 
