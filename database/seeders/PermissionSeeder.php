@@ -35,6 +35,9 @@ class PermissionSeeder extends Seeder
             "role",
             "role-kelola",
 
+            "costumer",
+            "costumer-kelola",
+
             "chart-statistik-invoice"
         ];
 
