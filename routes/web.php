@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CostumerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\KotaController;
@@ -125,6 +126,17 @@ Route::middleware("auth")->group(function(){
             Route::post("/detail/{role}/updateNama", [RoleController::class, "updateNamaRolePost"])->name("role.nama.post");
             Route::post("/detail/{role}/updatePermission", [RoleController::class, "updatePermissionRolePost"])->name("role.permission.post");
             Route::get("/detail/{role}/deleteRole", [RoleController::class, "deleteRole"])->name("role.delete");
+        });
+
+        Route::prefix("/costumer")->group(function(){
+            Route::get("/", [CostumerController::class, "index"])->name("costumer");
+            Route::post("/createCostumer", [CostumerController::class, "createCostumerPost"])->name("costumer.create.post");
+            Route::get("/{id}/edit", [CostumerController::class, "edit"])->name("costumer.edit");
+            Route::post("/{id}/edit", [CostumerController::class, "editPost"]);
+            Route::get("/{id}/deleteCostumer", [CostumerController::class, "costumerDelete"])->name("costumer.delete");
+
+            Route::post("/createHubungan", [CostumerController::class, "langgananCreatePost"])->name("langganan.create.post");
+            Route::get("/{id}/deleteHubungan", [CostumerController::class, "langgananCreateDelete"])->name("langganan.delete");
         });
     
         Route::prefix("view")->group(function(){
