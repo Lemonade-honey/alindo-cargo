@@ -11,7 +11,7 @@
     @stack('style')
 </head>
 <body>
-    {{-- @include('include.sidebar') --}}
+    @include('include.sidebar')
     <div class="p-4 mt-20 sm:mr-4 sm:ml-64">
         @yield('body')
     </div>
