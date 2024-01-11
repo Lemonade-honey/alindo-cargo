@@ -25,7 +25,7 @@ class CostumerController extends Controller
     public function createCostumerPost(Request $request){
         $request->validate([
             "name" => ["required", "min:5", "max:255"],
-            "kontak" => ["required", "numeric", "min:6", "max:255"],
+            "kontak" => ["required", "numeric"],
             "alamat" => ["required"]
         ]);
 
@@ -63,7 +63,7 @@ class CostumerController extends Controller
 
         $request->validate([
             "name" => ["required", "min:5", "max:255"],
-            "kontak" => ["required", "numeric", "min:6", "max:255"],
+            "kontak" => ["required", "numeric"],
             "alamat" => ["required"]
         ]);
 
@@ -79,7 +79,7 @@ class CostumerController extends Controller
                 "user" => auth()->user()->email
             ]);
 
-            return back()->with("error", "costumer berhasil diupdate");
+            return back()->with("success", "costumer berhasil diupdate");
         } catch (Throwable $th) {
             Log::error("costumer gagal dihapus", [
                 "class" => get_class(),
