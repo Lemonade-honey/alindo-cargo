@@ -5,6 +5,7 @@ use App\Http\Controllers\KotaController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
@@ -101,6 +102,20 @@ Route::prefix("dashboard")->group(function(){
         Route::get("/detail/{tanggal}/download", [LaporanController::class, "downloadLaporanSpreadsheet"])->name("laporan.detail.download");
 
         Route::get("/detail/{tanggal}/deletelaporan", [LaporanController::class, "deleteLaporan"])->name("laporan.delete");
+    });
+
+    Route::prefix("roles")->group(function(){
+        Route::get("/", [RoleController::class, "index"])->name("role");
+        Route::get("/buat", [RoleController::class, "create"])->name("role.create");
+        Route::post("/buat", [RoleController::class, "createPost"]);
+        Route::get("/detail/{role}", [RoleController::class, "detail"])->name("role.detail");
+
+        Route::post("/detail/{role}/addUser", [RoleController::class, "addUserToRole"])->name("role.user.add");
+        Route::get("/detail/{role}/deleteUser/{id}", [RoleController::class, "deleteUserToRole"])->name("role.user.delete");
+
+        Route::post("/detail/{role}/updateNama", [RoleController::class, "updateNamaRolePost"])->name("role.nama.post");
+        Route::post("/detail/{role}/updatePermission", [RoleController::class, "updatePermissionRolePost"])->name("role.permission.post");
+        Route::get("/detail/{role}/deleteRole", [RoleController::class, "deleteRole"])->name("role.delete");
     });
 
     Route::prefix("view")->group(function(){
