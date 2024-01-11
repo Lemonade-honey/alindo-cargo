@@ -26,6 +26,8 @@ class DashboardController extends Controller
                 return back()->with("error", "akun ini telah di blokir");
             }
 
+            Log::info("login " . auth()->user()->email . ", " . auth()->user()->email );
+
             return redirect()->route("dashboard");
         }
         return back()->with("error", "email atau password salah");
