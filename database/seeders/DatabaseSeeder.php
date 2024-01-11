@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         if(config("app.env") == "local"){
             Kota::factory(5)->create();
             $this->call(InvoiceSeeder::class);
+            $this->call(CostumerSeeder::class);
         }
 
         $this->call(PermissionSeeder::class);
