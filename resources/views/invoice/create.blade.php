@@ -195,7 +195,7 @@
                     <div class="w-full">
                         <select name="member-id" id="member-list" class="w-full">
                             <option></option>
-                            @foreach ($members as $item)
+                            @foreach ($hubungan as $item)
                                 <option value="{{ $item->id }}">{{ $item->relasi }}</option>
                             @endforeach
                         </select>

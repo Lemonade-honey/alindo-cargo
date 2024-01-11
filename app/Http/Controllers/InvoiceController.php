@@ -9,7 +9,6 @@ use App\Models\invoice\InvoiceData;
 use App\Models\invoice\InvoicePerson;
 use App\Models\invoice\InvoiceTracking;
 use App\Models\Kota;
-use App\Models\member\RelasiMember;
 use App\Service\InvoiceServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -49,10 +48,9 @@ class InvoiceController extends Controller
      */
     public function create(){
         $kotas = Kota::get();
+        $hubungan = \App\Models\costumer\CostumerTetap::with("costumer1", "costumer2")->get();
 
-        $members = RelasiMember::get();
-
-        return view("invoice.create", compact("kotas", "members"));
+        return view("invoice.create", compact("kotas", "hubungan"));
     }
 
     /**
@@ -133,9 +131,9 @@ class InvoiceController extends Controller
 
         $kotas = Kota::get();
 
-        $members = RelasiMember::get();
+        $hubungan = \App\Models\costumer\CostumerTetap::with("costumer1", "costumer2")->get();
 
-        return view("invoice.edit", compact("invoice", "kotas", "members"));
+        return view("invoice.edit", compact("invoice", "kotas", "hubungan"));
     }
 
     /**
