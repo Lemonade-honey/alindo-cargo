@@ -35,3 +35,26 @@ Route::prefix("vendors")->group(function(){
         return response()->json($vendors);
     });
 });
+
+// route API Costumer
+Route::prefix("costumerRelation")->group(function(){
+    Route::get("/{id}", function($id){
+        $costumerRel = \App\Models\costumer\CostumerTetap::with('costumer1', 'costumer2')->find($id);
+
+        if(!$costumerRel){
+            return response()->json([
+                'error' => [
+                    'code' => 404,
+                    'message' => 'Data tidak ditemukan.'
+                ]
+            ], \Illuminate\Http\JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $response = [
+            $costumerRel->costumer1,
+            $costumerRel->costumer2,
+        ];
+
+        return response()->json($response);
+    })->name("api.costumerRelation");
+});

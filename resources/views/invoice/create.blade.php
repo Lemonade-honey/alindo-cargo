@@ -46,8 +46,32 @@
             placeholder: "Masukan kota tujuan"
         });
         $('#member-list').select2({
-            placeholder: "Relasi Member"
+            placeholder: "nama hubungan"
         });
+
+        $('#member-list').on('change', function(){
+
+            var selectValue = $(this).val()
+
+            $.ajax({
+                url: '/api/costumerRelation/' + selectValue, // Gantilah dengan endpoint yang sesuai
+                method: 'GET',
+                success: function(data) {
+                    // pengirim
+                    $('#nama-pengirim').val(data[0].name)
+                    $('#kontak-pengirim').val(data[0].kontak)
+
+                    // penerima
+                    $('#nama-penerima').val(data[1].name)
+                    $('#kontak-penerima').val(data[1].kontak)
+                    $('#alamat-penerima').val(data[1].alamat)
+
+                },
+                error: function(error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+        })
     });
 
     const form_lock = document.getElementById('form-lock')
@@ -196,7 +220,7 @@
                         <select name="member-id" id="member-list" class="w-full">
                             <option></option>
                             @foreach ($hubungan as $item)
-                                <option value="{{ $item->id }}">{{ $item->relasi }}</option>
+                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
                             @endforeach
                         </select>
                     </div>

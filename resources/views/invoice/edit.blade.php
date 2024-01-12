@@ -48,6 +48,29 @@
         $('#member-list').select2({
             placeholder: "Relasi Member"
         });
+
+        $('#member-list').on('change', function(){
+            var selectValue = $(this).val()
+
+            $.ajax({
+                url: '/api/costumerRelation/' + selectValue, // Gantilah dengan endpoint yang sesuai
+                method: 'GET',
+                success: function(data) {
+                    // pengirim
+                    $('#nama-pengirim').val(data[0].name)
+                    $('#kontak-pengirim').val(data[0].kontak)
+
+                    // penerima
+                    $('#nama-penerima').val(data[1].name)
+                    $('#kontak-penerima').val(data[1].kontak)
+                    $('#alamat-penerima').val(data[1].alamat)
+
+                },
+                error: function(error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+        })
     });
 
     const form_lock = document.getElementById('form-lock')
@@ -203,8 +226,8 @@
                     <div class="w-full">
                         <select name="member-id" id="member-list" class="w-full">
                             <option></option>
-                            @foreach ($members as $item)
-                                <option value="{{ $item->id }}" @selected($invoice->invoiceData->form_setting["member-id"] == $item->id)>{{ $item->relasi }}</option>
+                            @foreach ($hubungan as $item)
+                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
                             @endforeach
                         </select>
                     </div>
