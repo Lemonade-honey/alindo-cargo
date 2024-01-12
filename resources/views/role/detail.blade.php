@@ -283,7 +283,7 @@
                     <label for="nama" class="block mb-2 text-sm font-medium text-gray-900">User Permission</label>
                     <div class="mb-4 flex items-center gap-2">
                         <input type="checkbox" name="permission[]" id="user" value="user" @checked(in_array("user", $role->permission))>
-                        <label for="user" class="cursor-pointer text-sm">User</label>
+                        <label for="user" class="cursor-pointer text-red-500 text-sm">User</label>
                     </div>
                     <div class="mb-4 flex items-center gap-2">
                         <input type="checkbox" name="permission[]" id="user-kelola" value="user-kelola" @checked(in_array("user-kelola", $role->permission))>

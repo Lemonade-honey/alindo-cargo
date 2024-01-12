@@ -24,10 +24,13 @@
 <header class="w-full p-4 border border-gray-200 shadow rounded-lg mb-6">
     <div class="flex justify-between items-center">
         <h1 class="text-2xl">List Users</h1>
+        @can('user-kelola')
         <button type="button" data-modal-target="modal-tambah-user" data-modal-toggle="modal-tambah-user" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2">Tambah</button>
+        @endcan
     </div>
 </header>
 
+@can('user-kelola')
 <div id="modal-tambah-user" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
         <!-- Modal content -->
@@ -73,6 +76,7 @@
         </div>
     </div>
 </div>
+@endcan
 
 @include('include.flash')
 <div class="p-4 w-full shadow border border-gray-100 rounded-lg">
@@ -95,9 +99,11 @@
                     <th scope="col" class="px-6 py-3">
                         Created at
                     </th>
+                    @can('user-kelola')
                     <th scope="col" class="px-6 py-3">
                         Action
                     </th>
+                    @endcan
                 </tr>
             </thead>
             <tbody>
@@ -122,9 +128,11 @@
                     <td class="px-6 py-4">
                         {{ date('H:i, d M Y', strtotime($item->created_at)) }}
                     </td>
+                    @can('user-kelola')
                     <td class="px-6 py-4">
                         <a href="{{ route('user.detail', ['uid' => $item->user_uid]) }}" class="font-medium text-blue-600 hover:underline">View</a>
                     </td>
+                    @endcan
                 </tr>
                 @endforeach
             </tbody>

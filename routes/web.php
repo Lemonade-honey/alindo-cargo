@@ -77,75 +77,105 @@ Route::middleware("auth")->group(function(){
         });
     
         Route::prefix("vendors")->group(function(){
-            Route::get("/", [VendorController::class, "index"])->name("vendor");
-            Route::post("/", [VendorController::class, "createPost"]);
+            Route::middleware("permission:vendor")->group(function(){
+                Route::get("/", [VendorController::class, "index"])->name("vendor");
+                Route::get("/{id}", [VendorController::class, "detail"])->name("vendor.detail");
+            });
+
+            Route::middleware("permission:vendor-kelola")->group(function(){
+                Route::post("/", [VendorController::class, "createPost"]);
     
-            Route::get("/{id}", [VendorController::class, "detail"])->name("vendor.detail");
-            Route::post("/{id}", [VendorController::class, "detailPost"]);
-            Route::post("/{id}/wilayahPost", [VendorController::class, "wilayahPost"])->name("vendor.wilayah.post");
-    
-            Route::get("/{id}/deteleVendor", [VendorController::class, "delete"])->name("vendor.delete");
-    
-            Route::get("/{id}/wilayah/{id_gabung}", [VendorController::class, "wilayahDetail"])->name("vendor.wilayah.detail");
-            Route::post("/{id}/wilayah/{id_gabung}", [VendorController::class, "wilayahDetailPost"]);
-    
-            Route::get("/{id}/wilayah/{id_gabung}/deleteWilayah", [VendorController::class, "wilayahDetailDelete"])->name("vendor.wilayah.delete");
+                Route::post("/{id}", [VendorController::class, "detailPost"]);
+                Route::post("/{id}/wilayahPost", [VendorController::class, "wilayahPost"])->name("vendor.wilayah.post");
+        
+                Route::get("/{id}/deteleVendor", [VendorController::class, "delete"])->name("vendor.delete");
+        
+                Route::get("/{id}/wilayah/{id_gabung}", [VendorController::class, "wilayahDetail"])->name("vendor.wilayah.detail");
+                Route::post("/{id}/wilayah/{id_gabung}", [VendorController::class, "wilayahDetailPost"]);
+        
+                Route::get("/{id}/wilayah/{id_gabung}/deleteWilayah", [VendorController::class, "wilayahDetailDelete"])->name("vendor.wilayah.delete");
+            });
         });
     
         Route::prefix("kota")->group(function(){
-            Route::get("/", [KotaController::class, "index"])->name("kota");
-            Route::post("/", [KotaController::class, "createPost"])->name("kota.create.post");
-    
-            Route::get("/{id}/detail", [KotaController::class, "detail"])->name("kota.detail");
-            Route::post("/{id}/detail", [KotaController::class, "detailPost"]);
-    
-            Route::get("/{id}/deleteKota", [KotaController::class, "delete"])->name("kota.delete");
+            // kota list
+            Route::middleware("permission:kota")->group(function(){
+                Route::get("/", [KotaController::class, "index"])->name("kota");
+            });
+            
+            Route::middleware("permission:kota-kelola")->group(function(){
+                Route::post("/", [KotaController::class, "createPost"])->name("kota.create.post");
+                Route::get("/{id}/detail", [KotaController::class, "detail"])->name("kota.detail");
+                Route::post("/{id}/detail", [KotaController::class, "detailPost"]);
+        
+                Route::get("/{id}/deleteKota", [KotaController::class, "delete"])->name("kota.delete");
+            });
         });
     
         Route::prefix("users")->group(function(){
-            Route::get("/", [UserController::class, "index"])->name("user");
-            Route::post("/", [UserController::class, "createPost"]);
-            Route::get("/detail/{uid}", [UserController::class, "detail"])->name("user.detail");
-            
-            Route::post("/detail/{uid}/akunPost", [UserController::class, "updateAkunPost"])->name("user.akun.post");
-            Route::post("/detail/{uid}/passwordReset", [UserController::class, "updatePasswordPost"])->name("user.password.post");
-            Route::post("/detail/{uid}/akunBlock", [UserController::class, "updateBlockPost"])->name("user.block.post");
-            
-            Route::get("/{id}/deleteUser", [UserController::class, "deleteUser"])->name("user.delete");
+            Route::middleware("permission:user")->group(function(){
+                Route::get("/", [UserController::class, "index"])->name("user");
+            });
+
+            Route::middleware("permission:user-kelola")->group(function(){
+                Route::post("/", [UserController::class, "createPost"]);
+                Route::get("/detail/{uid}", [UserController::class, "detail"])->name("user.detail");
+                
+                Route::post("/detail/{uid}/akunPost", [UserController::class, "updateAkunPost"])->name("user.akun.post");
+                Route::post("/detail/{uid}/passwordReset", [UserController::class, "updatePasswordPost"])->name("user.password.post");
+                Route::post("/detail/{uid}/akunBlock", [UserController::class, "updateBlockPost"])->name("user.block.post");
+                
+                Route::get("/{id}/deleteUser", [UserController::class, "deleteUser"])->name("user.delete");
+            });
         });
     
         Route::prefix("laporan")->group(function(){
-            Route::get("/", [LaporanController::class, "index"])->name("laporan");
-            Route::post("/", [LaporanController::class, "createPost"]);
-            Route::get("/detail/{tanggal}", [LaporanController::class, "detail"])->name("laporan.detail");
-            Route::get("/detail/{tanggal}/download", [LaporanController::class, "downloadLaporanSpreadsheet"])->name("laporan.detail.download");
-    
-            Route::get("/detail/{tanggal}/deletelaporan", [LaporanController::class, "deleteLaporan"])->name("laporan.delete");
+            Route::middleware("permission:laporan")->group(function(){
+                Route::get("/", [LaporanController::class, "index"])->name("laporan");
+            });
+
+            Route::middleware("permission:laporan-kelola")->group(function(){
+                Route::post("/", [LaporanController::class, "createPost"]);
+                Route::get("/detail/{tanggal}", [LaporanController::class, "detail"])->name("laporan.detail");
+                Route::get("/detail/{tanggal}/download", [LaporanController::class, "downloadLaporanSpreadsheet"])->name("laporan.detail.download");
+        
+                Route::get("/detail/{tanggal}/deletelaporan", [LaporanController::class, "deleteLaporan"])->name("laporan.delete");
+            });
         });
     
         Route::prefix("roles")->group(function(){
-            Route::get("/", [RoleController::class, "index"])->name("role");
-            Route::get("/buat", [RoleController::class, "create"])->name("role.create");
-            Route::post("/buat", [RoleController::class, "createPost"]);
-            Route::get("/detail/{role}", [RoleController::class, "detail"])->name("role.detail");
-    
-            Route::post("/detail/{role}/addUser", [RoleController::class, "addUserToRole"])->name("role.user.add");
-            Route::get("/detail/{role}/deleteUser/{id}", [RoleController::class, "deleteUserToRole"])->name("role.user.delete");
-    
-            Route::post("/detail/{role}/updateNama", [RoleController::class, "updateNamaRolePost"])->name("role.nama.post");
-            Route::post("/detail/{role}/updatePermission", [RoleController::class, "updatePermissionRolePost"])->name("role.permission.post");
-            Route::get("/detail/{role}/deleteRole", [RoleController::class, "deleteRole"])->name("role.delete");
+            Route::middleware("permission:role")->group(function(){
+                Route::get("/", [RoleController::class, "index"])->name("role");
+            });
+
+            Route::middleware("permission:role-kelola")->group(function(){
+                Route::get("/buat", [RoleController::class, "create"])->name("role.create");
+                Route::post("/buat", [RoleController::class, "createPost"]);
+                Route::get("/detail/{role}", [RoleController::class, "detail"])->name("role.detail");
+        
+                Route::post("/detail/{role}/addUser", [RoleController::class, "addUserToRole"])->name("role.user.add");
+                Route::get("/detail/{role}/deleteUser/{id}", [RoleController::class, "deleteUserToRole"])->name("role.user.delete");
+        
+                Route::post("/detail/{role}/updateNama", [RoleController::class, "updateNamaRolePost"])->name("role.nama.post");
+                Route::post("/detail/{role}/updatePermission", [RoleController::class, "updatePermissionRolePost"])->name("role.permission.post");
+                Route::get("/detail/{role}/deleteRole", [RoleController::class, "deleteRole"])->name("role.delete");
+            });
         });
 
         Route::prefix("/costumer")->group(function(){
-            Route::get("/", [CostumerController::class, "index"])->name("costumer");
-            Route::post("/createCostumer", [CostumerController::class, "createCostumerPost"])->name("costumer.create.post");
-            Route::get("/{id}/edit", [CostumerController::class, "edit"])->name("costumer.edit");
-            Route::post("/{id}/edit", [CostumerController::class, "editPost"]);
-            Route::get("/{id}/deleteCostumer", [CostumerController::class, "costumerDelete"])->name("costumer.delete");
+            Route::middleware("permission:costumer")->group(function(){
+                Route::get("/", [CostumerController::class, "index"])->name("costumer");
+            });
 
-            Route::post("/createHubungan", [CostumerController::class, "langgananCreatePost"])->name("langganan.create.post");
-            Route::get("/{id}/deleteHubungan", [CostumerController::class, "langgananCreateDelete"])->name("langganan.delete");
+            Route::middleware("permission:costumer-kelola")->group(function(){
+                Route::post("/createCostumer", [CostumerController::class, "createCostumerPost"])->name("costumer.create.post");
+                Route::get("/{id}/edit", [CostumerController::class, "edit"])->name("costumer.edit");
+                Route::post("/{id}/edit", [CostumerController::class, "editPost"]);
+                Route::get("/{id}/deleteCostumer", [CostumerController::class, "costumerDelete"])->name("costumer.delete");
+    
+                Route::post("/createHubungan", [CostumerController::class, "langgananCreatePost"])->name("langganan.create.post");
+                Route::get("/{id}/deleteHubungan", [CostumerController::class, "langgananCreateDelete"])->name("langganan.delete");
+            });
         });
     
         Route::prefix("view")->group(function(){

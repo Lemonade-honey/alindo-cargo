@@ -18,12 +18,15 @@
 <header class="w-full p-4 border border-gray-200 shadow rounded-lg mb-6">
     <div class="flex justify-between items-center">
         <h1 class="text-2xl">List Laporan</h1>
+        @can('laporan-kelola')
         <button type="button" data-modal-target="modal-tambah-laporan" data-modal-toggle="modal-tambah-laporan" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2">Tambah</button>
+        @endcan
     </div>
 </header>
 
 @include('include/flash')
 
+@can('laporan-kelola')
 <div id="modal-tambah-laporan" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
         <!-- Modal content -->
@@ -56,6 +59,7 @@
         </div>
     </div>
 </div>
+@endcan
 
 <div class="w-full my-2 p-4 border border-gray-100 rounded-lg shadow">
     <div class="relative overflow-x-auto">
@@ -65,7 +69,9 @@
                     <th>No</th>
                     <th>Laporan</th>
                     <th>Created At</th>
+                    @can('laporan-kelola')
                     <th>Action</th>
+                    @endcan
                 </tr>
             </thead>
             <tbody>
@@ -74,9 +80,11 @@
                     <td>{{ $key + 1 }}</td>
                     <td>{{ date('F, Y', strtotime($value->tanggal)) }}</td>
                     <td>{{ $value->created_at }}</td>
+                    @can('laporan-kelola')
                     <td>
                         <a href="{{ route('laporan.detail', ['tanggal' => $value->tanggal]) }}" class="text-blue-500 hover:underline">View</a>
                     </td>
+                    @endcan
                 </tr>
                 @endforeach
             </tbody>

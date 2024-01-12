@@ -18,7 +18,9 @@
 <header class="w-full p-4 border border-gray-200 shadow rounded-lg mb-6">
     <div class="flex justify-between items-center">
         <h1 class="text-2xl">List Roles</h1>
+        @can('role-kelola')
         <a href="{{ route('role.create') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2">Tambah</a>
+        @endcan
     </div>
 </header>
 
@@ -31,7 +33,9 @@
                 <tr>
                     <th>No</th>
                     <th>Role</th>
+                    @can('role-kelola')
                     <th>Action</th>
+                    @endcan
                 </tr>
             </thead>
             <tbody>
@@ -39,9 +43,11 @@
                 <tr>
                     <td>{{ $key + 1 }}</td>
                     <td>{{ $item->name }}</td>
+                    @can('role-kelola')
                     <td>
                         <a href="{{ route('role.detail', ['role' => $item->name]) }}" class="text-blue-600 hover:underline">View</a>
                     </td>
+                    @endcan
                 </tr>
             @endforeach
             </tbody>

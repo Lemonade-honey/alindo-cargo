@@ -129,9 +129,11 @@
             <label for="nama" class="block mb-2 text-sm font-medium text-gray-900">Deskripsi</label>
             <textarea name="deskripsi" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" rows="3">{{ $vendor->deskripsi }}</textarea>
         </div>
+        @can('vendor-kelola')
         <div class="flex justify-end">
             <button type="submit" id="deleteBtn" class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 mr-2" title="Hapus Vendor">UPDATE</button>
         </div>
+        @endcan
     </form>
     <div class="w-full border border-gray-100 p-4 shadow rounded-lg">
         <h3 class="text-lg font-medium mb-5">List Wilayah</h3>
@@ -140,7 +142,9 @@
                 <th>No</th>
                 <th>Wilayah</th>
                 <th>Harga</th>
+                @can('vendor-kelola')
                 <th>Quick Action</th>
+                @endcan
             </thead>
             <tbody>
                 @foreach ($vendor->wilayah as $key => $item)
@@ -148,17 +152,20 @@
                     <td>{{ $key + 1 }}</td>
                     <td>{{ $item->kota }}</td>
                     <td>Rp. {{ number_format($item->pivot->harga) }}</td>
+                    @can('vendor-kelola')
                     <td>
                         <a href="{{ route('vendor.wilayah.detail', ['id' => $vendor->id, 'id_gabung' => $item->pivot->id]) }}" class="font-medium text-blue-600 hover:underline">
                             Edit
                         </a>
                     </td>
+                    @endcan
                 </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
     
+    @can('vendor-kelola')
     <div class="w-full border border-gray-100 p-4 shadow rounded-lg">
         <h3 class="text-lg font-medium mb-5">Tambah Wilayah</h3>
         <form action="{{ route('vendor.wilayah.post', ['id' => $vendor->id]) }}" method="post">
@@ -184,13 +191,15 @@
             </div>
         </form>
     </div>
+
+    <div class="w-full border border-gray-100 p-4 shadow rounded-lg">
+        <h3 class="font-medium text-lg">Hapus Vendor</h3>
+        <p class="text-xs"><span class="text-red-600">*</span> hal ini akan mempengaruhi <span class="underline font-medium">data invoice</span> yang terhubung dengan vendor ini akan <span class="font-bold">coruption</span></p>
+        <div class="flex justify-center mt-5">
+            <button type="button" id="btnDelete" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">DELETE</button>
+        </div>
+    </div>
+    @endcan
 </div>
 
-<div class="w-full border border-gray-100 p-4 shadow rounded-lg mt-5">
-    <h3 class="font-medium text-lg">Hapus Vendor</h3>
-    <p class="text-xs"><span class="text-red-600">*</span> hal ini akan mempengaruhi <span class="underline font-medium">data invoice</span> yang terhubung dengan vendor ini akan <span class="font-bold">coruption</span></p>
-    <div class="flex justify-center mt-5">
-        <button type="button" id="btnDelete" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">DELETE</button>
-    </div>
-</div>
 @endsection

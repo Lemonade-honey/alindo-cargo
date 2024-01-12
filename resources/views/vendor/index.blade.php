@@ -67,12 +67,15 @@
 <header class="w-full p-4 border border-gray-200 shadow rounded-lg mb-6">
     <div class="flex justify-between items-center">
         <h1 class="text-2xl">List Vendor</h1>
+        @can('vendor-kelola')
         <button type="button" data-modal-target="modal-tambah-vendor" data-modal-toggle="modal-tambah-vendor" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2">Tambah</button>
+        @endcan
     </div>
 </header>
 
 @include('include.flash')
 
+@can('vendor-kelola')
 <div id="modal-tambah-vendor" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
         <!-- Modal content -->
@@ -110,6 +113,7 @@
         </div>
     </div>
 </div>
+@endcan
 
 
 <div class="w-full my-2 p-4 border border-gray-100 rounded-lg shadow">
@@ -130,7 +134,7 @@
                     <td>{{ $item->nama }}</td>
                     <td>{{ $item->wilayah->count() }}</td>
                     <td>
-                        <a href="{{ route('vendor.detail', ['id' => $item->id]) }}" class="font-medium text-blue-600 hover:underline">Edit</a>
+                        <a href="{{ route('vendor.detail', ['id' => $item->id]) }}" class="font-medium text-blue-600 hover:underline">View</a>
                     </td>
                 </tr>
             @endforeach
