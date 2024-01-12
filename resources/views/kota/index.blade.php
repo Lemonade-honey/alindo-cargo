@@ -27,11 +27,15 @@
 <header class="w-full p-4 border border-gray-200 shadow rounded-lg mb-6">
     <div class="flex justify-between items-center">
         <h1 class="text-2xl">List Kota</h1>
+
+        @can('kota-kelola')
         <button type="button" data-modal-target="modal-tambah-kota" data-modal-toggle="modal-tambah-kota" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2">Tambah</button>
+        @endcan
     </div>
 </header>
 @include('include.flash')
 
+@can('kota-kelola')
 <div id="modal-tambah-kota" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
         <!-- Modal content -->
@@ -70,6 +74,7 @@
         </div>
     </div>
 </div>
+@endcan
 
 
 <div class="w-full my-2 p-4 border border-gray-100 rounded-lg shadow">
@@ -80,7 +85,9 @@
                     <th>No</th>
                     <th>Kota</th>
                     <th>Harga/Kg</th>
+                    @can('kota-kelola')
                     <th>Action</th>
+                    @endcan
                 </tr>
             </thead>
             <tbody>
@@ -89,9 +96,11 @@
                     <td>{{ $key + 1 }}</td>
                     <td>{{ $item->kota }}</td>
                     <td>Rp. {{ number_format($item->harga) }}</td>
+                    @can('kota-kelola')
                     <td>
                         <a href="{{ route('kota.detail', ['id' => $item->id]) }}" class="text-blue-600 p-3 rounded-lg hover:bg-gray-200">Detail</a>
                     </td>
+                    @endcan
                 </tr>
                 @endforeach
             </tbody>
