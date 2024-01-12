@@ -126,7 +126,7 @@
         <div class="flex justify-between mb-5">
             <div class="">
                 <h2 class="text-lg">Role dengan User</h2>
-                <p class="text-xs">Akun yang terikat dengan role ini, 1 akun 1 role</p>
+                <p class="text-xs">Akun-akun yang terikat dengan role ini, <span class="font-medium">1 akun 1 role</span></p>
             </div>
             <button type="button" data-modal-target="modal-tambah-user" data-modal-toggle="modal-tambah-user" class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2">Tambah</button>
         </div>
@@ -199,7 +199,7 @@
         @csrf
         <div class="w-full p-4 border border-gray-100 shadow rounded-lg">
             <h2 class="text-lg">Role</h2>
-            <p class="text-xs">Ganti nama role, pastikan nama yang belum terdaftar</p>
+            <p class="text-xs">Saat ganti nama role, pastikan nama yang belum terdaftar</p>
             <div class="mt-3">
                 <label for="nama" class="block mb-2 text-sm font-medium text-gray-900">Nama Role</label>
                 <input type="text" name="name" id="nama" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="{{ old('nama') ?? $role->name }}">
@@ -215,7 +215,7 @@
         <div class="w-full p-4 border border-gray-100 shadow rounded-lg">
             <div class="mb-4">
                 <h2 class="text-lg">Permission</h2>
-                <p class="text-sm"><span class="text-yellow-300">Kuning</span> Permission penting</p>
+                <p class="text-sm"><span class="text-yellow-400">Kuning</span> Permission penting</p>
                 <p class="text-sm"><span class="text-red-500">Merah</span> Permission sangat penting</p>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -224,6 +224,10 @@
                     <div class="mb-4 flex items-center gap-2">
                         <input type="checkbox" name="permission[]" id="invoice" value="invoice" @checked(in_array("invoice", $role->permission))>
                         <label for="invoice" class="cursor-pointer text-sm">Invoice</label>
+                    </div>
+                    <div class="mb-4 flex items-center gap-2">
+                        <input type="checkbox" name="permission[]" id="invoice-kelola" value="invoice-kelola" @checked(in_array("invoice-kelola", $role->permission))>
+                        <label for="invoice-kelola" class="cursor-pointer text-yellow-400 text-sm">Kelola Invoice</label>
                     </div>
                     <div class="mb-4 flex items-center gap-2">
                         <input type="checkbox" name="permission[]" id="invoice-pembayaran" value="invoice-pembayaran" @checked(in_array("invoice-pembayaran", $role->permission))>
@@ -235,7 +239,7 @@
                     </div>
                     <div class="mb-4 flex items-center gap-2">
                         <input type="checkbox" name="permission[]" id="invoice-status" value="invoice-status" @checked(in_array("invoice-status", $role->permission))>
-                        <label for="invoice-status" class="cursor-pointer text-yellow-300 text-sm">Invoice Status</label>
+                        <label for="invoice-status" class="cursor-pointer text-yellow-400 text-sm">Invoice Status</label>
                     </div>
                     <div class="mb-4 flex items-center gap-2">
                         <input type="checkbox" name="permission[]" id="invoice-delete" value="invoice-delete" @checked(in_array("invoice-delete", $role->permission))>
@@ -250,7 +254,7 @@
                     </div>
                     <div class="mb-4 flex items-center gap-2">
                         <input type="checkbox" name="permission[]" id="vendor-kelola" value="vendor-kelola" @checked(in_array("vendor-kelola", $role->permission))>
-                        <label for="vendor-kelola" class="cursor-pointer text-yellow-300 text-sm">Kelola Vendor</label>
+                        <label for="vendor-kelola" class="cursor-pointer text-yellow-400 text-sm">Kelola Vendor</label>
                     </div>
                 </div>
                 <div class="px-3 py-1 border border-gray-100 shadow rounded-sm">
@@ -261,7 +265,7 @@
                     </div>
                     <div class="mb-4 flex items-center gap-2">
                         <input type="checkbox" name="permission[]" id="kota-kelola" value="kota-kelola" @checked(in_array("kota-kelola", $role->permission))>
-                        <label for="kota-kelola" class="cursor-pointer text-yellow-300 text-sm">Kelola Kota</label>
+                        <label for="kota-kelola" class="cursor-pointer text-yellow-400 text-sm">Kelola Kota</label>
                     </div>
                 </div>
                 <div class="px-3 py-1 border border-gray-100 shadow rounded-sm">
@@ -272,7 +276,7 @@
                     </div>
                     <div class="mb-4 flex items-center gap-2">
                         <input type="checkbox" name="permission[]" id="laporan-kelola" value="laporan-kelola" @checked(in_array("laporan-kelola", $role->permission))>
-                        <label for="laporan-kelola" class="cursor-pointer text-yellow-300 text-sm">Kelola Laporan</label>
+                        <label for="laporan-kelola" class="cursor-pointer text-yellow-400 text-sm">Kelola Laporan</label>
                     </div>
                 </div>
                 <div class="px-3 py-1 border border-gray-100 shadow rounded-sm">

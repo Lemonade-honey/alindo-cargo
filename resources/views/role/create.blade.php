@@ -44,7 +44,7 @@
     <div class="w-full p-4 border border-gray-100 shadow rounded-lg mt-3">
         <div class="mb-4">
             <h2 class="text-lg">Permission</h2>
-            <p class="text-sm"><span class="text-yellow-300">Kuning</span> Permission penting</p>
+            <p class="text-sm"><span class="text-yellow-400">Kuning</span> Permission penting</p>
             <p class="text-sm"><span class="text-red-500">Merah</span> Permission sangat penting</p>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -53,6 +53,10 @@
                 <div class="mb-4 flex items-center gap-2">
                     <input type="checkbox" name="permission[]" id="invoice" value="invoice">
                     <label for="invoice" class="cursor-pointer text-sm">Invoice</label>
+                </div>
+                <div class="mb-4 flex items-center gap-2">
+                    <input type="checkbox" name="permission[]" id="invoice-kelola" value="invoice-kelola">
+                    <label for="invoice-kelola" class="cursor-pointer text-yellow-400 text-sm">Kelola Invoice</label>
                 </div>
                 <div class="mb-4 flex items-center gap-2">
                     <input type="checkbox" name="permission[]" id="invoice-pembayaran" value="invoice-pembayaran">
@@ -64,7 +68,7 @@
                 </div>
                 <div class="mb-4 flex items-center gap-2">
                     <input type="checkbox" name="permission[]" id="invoice-status" value="invoice-status">
-                    <label for="invoice-status" class="cursor-pointer text-yellow-300 text-sm">Invoice Status</label>
+                    <label for="invoice-status" class="cursor-pointer text-yellow-400 text-sm">Invoice Status</label>
                 </div>
                 <div class="mb-4 flex items-center gap-2">
                     <input type="checkbox" name="permission[]" id="invoice-delete" value="invoice-delete">
@@ -79,7 +83,7 @@
                 </div>
                 <div class="mb-4 flex items-center gap-2">
                     <input type="checkbox" name="permission[]" id="vendor-kelola" value="vendor-kelola">
-                    <label for="vendor-kelola" class="cursor-pointer text-yellow-300 text-sm">Kelola Vendor</label>
+                    <label for="vendor-kelola" class="cursor-pointer text-yellow-400 text-sm">Kelola Vendor</label>
                 </div>
             </div>
             <div class="px-3 py-1 border border-gray-100 shadow rounded-sm">
@@ -90,7 +94,7 @@
                 </div>
                 <div class="mb-4 flex items-center gap-2">
                     <input type="checkbox" name="permission[]" id="kota-kelola" value="kota-kelola">
-                    <label for="kota-kelola" class="cursor-pointer text-yellow-300 text-sm">Kelola Kota</label>
+                    <label for="kota-kelola" class="cursor-pointer text-yellow-400 text-sm">Kelola Kota</label>
                 </div>
             </div>
             <div class="px-3 py-1 border border-gray-100 shadow rounded-sm">
@@ -101,7 +105,7 @@
                 </div>
                 <div class="mb-4 flex items-center gap-2">
                     <input type="checkbox" name="permission[]" id="laporan-kelola" value="laporan-kelola">
-                    <label for="laporan-kelola" class="cursor-pointer text-yellow-300 text-sm">Kelola Laporan</label>
+                    <label for="laporan-kelola" class="cursor-pointer text-yellow-400 text-sm">Kelola Laporan</label>
                 </div>
             </div>
             <div class="px-3 py-1 border border-gray-100 shadow rounded-sm">
