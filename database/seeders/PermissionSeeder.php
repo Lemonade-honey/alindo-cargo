@@ -15,6 +15,7 @@ class PermissionSeeder extends Seeder
     {
         $permissions = [
             "invoice",
+            "invoice-kelola",
             "invoice-status",
             "invoice-pembayaran",
             "invoice-tracking",
