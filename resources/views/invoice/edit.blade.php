@@ -53,7 +53,7 @@
             var selectValue = $(this).val()
 
             $.ajax({
-                url: '/api/costumerRelation/' + selectValue, // Gantilah dengan endpoint yang sesuai
+                url: '/api/costumerRelation/' + selectValue,
                 method: 'GET',
                 success: function(data) {
                     // pengirim
