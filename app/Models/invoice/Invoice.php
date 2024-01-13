@@ -51,6 +51,17 @@ class Invoice extends Model
     ];
 
     /**
+     * Scope Function
+     */
+    public function scopeSearch($query, $value){
+        $query->where('invoice', 'like', "%{$value}%")
+        ->orWhere('tujuan', 'like', "%{$value}%")
+        ->orWhereHas('InvoicePerson', function($query) use ($value){
+            $query->where('pengirim', 'like', "%{$value}%");
+        });
+    }
+
+    /**
      * Get and Set Attribut data
      */
     public function getCreatedAtAttribute($value){
