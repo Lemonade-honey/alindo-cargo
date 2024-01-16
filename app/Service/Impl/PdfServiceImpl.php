@@ -114,62 +114,64 @@ class PdfServiceImpl implements PdfServiceInterface{
         $pdf->AddPage();
         $pdf->SetAutoPageBreak(false);
 
-        // qr code
-        $pdf->SetY(5);
-        // set Header
-        $pdf->Image('logo.png', 5, 6, 42, null, "png");
-        $pdf->SetFont('Arial','', 5);
-        $pdf->Text(4, 15, 'Jl. Nogosaren Baru No.60A, Nogotirto Gamping Sleman');
-        $pdf->Text(4, 17, 'Kota Yogyakarta, Daerah Istimewa Yogyakarta 55292');
-        $pdf->setX(75);
-        $pdf->Cell( 20, 20, null, 1);
-        $qrCode = $this->imageService->qrCode($invoice->invoice);
-        $pdf->Image("temp/$qrCode", 76, 6, 18, null, "PNG");
-        $pdf->Ln();
+        $pdf->Image('logo.png', 5, 6, 45, null, "png");
+        $pdf->SetFont('Arial','B', 12);
+        $pdf->SetXY(55, 5);
 
-        $pdf->setY(30);
-        $pdf->SetFont('Arial','B', 10);
+        // barcode
+        $pdf->Cell(40, 8, $invoice->invoice, 1, 0, 'C');
+        $barcode = $this->imageService->barCode($invoice->invoice);
+        $pdf->Image("temp/$barcode", 55, 15, 40, 10, "PNG");
+        $pdf->Ln(20);
 
-        // invoice
-        $pdf->Cell(40, 10, $invoice->invoice, 1, 0, 'C');
+        // tgl invoice
+        $pdf->Cell(35, 8, '', 1);
+        $pdf->SetFont('Arial','', 8);
+        $pdf->Text(6, 30, 'Tanggal: ' . date('d F Y', strtotime($invoice->created_at)));
+        $pdf->Ln(10);
 
-        $pdf->Cell(50, 30, '', 1);
-        $pdf->Ln();
-        $pdf->SetFont('Arial','', 6);
-        $pdf->Text(7, 45, 'Pengirim');
-        $pdf->Text(7, 48, $invoice->invoicePerson->pengirim);
+        $pdf->Cell(45, 15, '', 1); // pengirim
+        $pdf->Text(6, 40, 'Pengirim');
+        $pdf->Text(6, 45, $invoice->invoicePerson->pengirim);
 
-        $pdf->Text(7, 53, 'Penerima');
-        $pdf->Text(7, 56, $invoice->invoicePerson->penerima . ",");
-        $pdf->Text(7, 58, $invoice->tujuan);
-
-
-        $pdf->setY(40);
-        $pdf->Cell(40, 20, '', 1);
-        $pdf->Ln();
-        $pdf->Ln(2);
-
-        $pdf->Text(47, 35, 'Tanggal: ' . date('d-M-y, H:i', strtotime($invoice->created_at)));
-
-        $pdf->Text(47, 38, 'isi barang : ' . $invoice->invoiceData->kategori);
-        $pdf->Text(47, 41, 'berat : ' . $invoice->invoiceData->berat . "Kg");
-        $pdf->Text(47, 44, 'qty : ' . $invoice->invoiceData->koli . " qty");
-
-        $pdf->Text(47, 50, 'Biaya Kirim : Rp.' . number_format($invoice->invoiceCost->biaya_kirim));
-
-        // biaya lainnya
-        $biayaLainnya = 0;
-        foreach($invoice->invoiceCost->biaya_lainnya as $item){
-            $biayaLainnya += $item['harga'];
+        $pdf->Cell(45, 35, '', 1); // alamat penerima
+        $pdf->SetFont('Arial','B', 8);
+        $pdf->Text(52, 40, 'Alamat penerima');
+        $alamat = $invoice->invoicePerson->alamat;
+        $pdf->SetFont('Arial','', 8);
+        if(strlen($alamat) > 29){
+            $i = 0;
+            $chunks = str_split($alamat, 29);
+            foreach($chunks as $item){
+                $pdf->Text(52, (44 + $i), $item);
+                $i = $i + 3;
+            }
+        }else{
+            $pdf->Text(52, 44, $alamat);
         }
 
-        $pdf->Text(47, 53, 'Biaya Lainnya : Rp.' . number_format($biayaLainnya));
+        $pdf->Ln();
 
-        $pdf->SetXY(0, 62);
-        $pdf->Cell(100, 0, '', 1);
+        $pdf->SetY(50);
+        $pdf->Cell(45, 20, '', 1); // penerima
+        $pdf->Text(6, 55, 'Penerima');
+        $pdf->Text(6, 60, $invoice->invoicePerson->penerima . ",");
+        $pdf->Text(6, 63, $invoice->invoicePerson->kontak_penerima);
+        $pdf->Text(6, 66, $invoice->tujuan);
 
-        unlink("temp/$qrCode");
+        $pdf->Ln();
+        $pdf->SetFont('Arial','B', 8);
+        $pdf->Cell(22.5, 7, 'QTY', 1, 0, 'C');
+        $pdf->Cell(22.5, 7, 'Berat', 1, 0, 'C');
+        $pdf->Cell(45, 7, 'Isi barang', 1, 0, 'C');
 
+        $pdf->Ln();
+        $pdf->SetFont('Arial','', 8);
+        $pdf->Cell(22.5, 25, $invoice->invoiceData->koli, 1, 0, 'C');
+        $pdf->Cell(22.5, 25, $invoice->invoiceData->berat . ' Kg', 1, 0, 'C');
+        $pdf->Cell(45, 25, $invoice->invoiceData->kategori, 1, 0, 'C');
+
+        unlink("temp/$barcode");
         $pdf->Output();
     }
 }
