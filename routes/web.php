@@ -32,7 +32,7 @@ Route::middleware("guest")->group(function(){
     Route::post('/login', [DashboardController::class, "loginPost"]);
 });
 
-Route::middleware("auth")->group(function(){
+Route::middleware(["auth", \App\Http\Middleware\LogSlowQueries::class])->group(function(){
     Route::prefix("dashboard")->group(function(){
         Route::get("/", function(){
             return view("dashboard");
