@@ -34,4 +34,25 @@ class PdfController extends Controller
             return redirect(url()->previous())->with("error", "gagal dalam mencetak invoice");
         }
     }
+
+    public function cetakCostumerInvoice($invoice){
+        $invoice = Invoice::with("invoicePerson", "invoiceCost", "invoiceData")->where("invoice", $invoice)->first();
+
+        abort_if(!$invoice, 404, "data not found");
+
+        try{
+            // cetak pdf
+            return $this->pdfService->cetakCostumerInvoice($invoice);
+            
+        } catch (\Throwable $th){
+
+            Log::error("gagal mencetak invoice: " . $invoice->invoice, [
+                "class" => get_class(),
+                "function" => __FUNCTION__,
+                "massage" => $th->getMessage()
+            ]);
+
+            return redirect(url()->previous())->with("error", "gagal dalam mencetak invoice");
+        }
+    }
 }

@@ -106,4 +106,70 @@ class PdfServiceImpl implements PdfServiceInterface{
             throw $exception;
         }
     }
+
+    public function cetakCostumerInvoice(\App\Models\invoice\Invoice $invoice){
+
+        $pdf = new \FPDF('P', 'mm', [120, 100]);
+        $pdf->SetMargins( 5, .5, 5);
+        $pdf->AddPage();
+        $pdf->SetAutoPageBreak(false);
+
+        // qr code
+        $pdf->SetY(5);
+        // set Header
+        $pdf->Image('logo.png', 5, 6, 42, null, "png");
+        $pdf->SetFont('Arial','', 5);
+        $pdf->Text(4, 15, 'Jl. Nogosaren Baru No.60A, Nogotirto Gamping Sleman');
+        $pdf->Text(4, 17, 'Kota Yogyakarta, Daerah Istimewa Yogyakarta 55292');
+        $pdf->setX(75);
+        $pdf->Cell( 20, 20, null, 1);
+        $qrCode = $this->imageService->qrCode($invoice->invoice);
+        $pdf->Image("temp/$qrCode", 76, 6, 18, null, "PNG");
+        $pdf->Ln();
+
+        $pdf->setY(30);
+        $pdf->SetFont('Arial','B', 10);
+
+        // invoice
+        $pdf->Cell(40, 10, $invoice->invoice, 1, 0, 'C');
+
+        $pdf->Cell(50, 30, '', 1);
+        $pdf->Ln();
+        $pdf->SetFont('Arial','', 6);
+        $pdf->Text(7, 45, 'Pengirim');
+        $pdf->Text(7, 48, $invoice->invoicePerson->pengirim);
+
+        $pdf->Text(7, 53, 'Penerima');
+        $pdf->Text(7, 56, $invoice->invoicePerson->penerima . ",");
+        $pdf->Text(7, 58, $invoice->tujuan);
+
+
+        $pdf->setY(40);
+        $pdf->Cell(40, 20, '', 1);
+        $pdf->Ln();
+        $pdf->Ln(2);
+
+        $pdf->Text(47, 35, 'Tanggal: ' . date('d-M-y, H:i', strtotime($invoice->created_at)));
+
+        $pdf->Text(47, 38, 'isi barang : ' . $invoice->invoiceData->kategori);
+        $pdf->Text(47, 41, 'berat : ' . $invoice->invoiceData->berat . "Kg");
+        $pdf->Text(47, 44, 'qty : ' . $invoice->invoiceData->koli . " qty");
+
+        $pdf->Text(47, 50, 'Biaya Kirim : Rp.' . number_format($invoice->invoiceCost->biaya_kirim));
+
+        // biaya lainnya
+        $biayaLainnya = 0;
+        foreach($invoice->invoiceCost->biaya_lainnya as $item){
+            $biayaLainnya += $item['harga'];
+        }
+
+        $pdf->Text(47, 53, 'Biaya Lainnya : Rp.' . number_format($biayaLainnya));
+
+        $pdf->SetXY(0, 62);
+        $pdf->Cell(100, 0, '', 1);
+
+        unlink("temp/$qrCode");
+
+        $pdf->Output();
+    }
 }

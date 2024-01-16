@@ -48,7 +48,9 @@ Route::middleware("auth")->group(function(){
             Route::post("/create", [InvoiceController::class, "createPost"])->middleware('permission:invoice');
             
             Route::get("/{invoice}", [InvoiceController::class, "detail"])->name("invoice.detail");
+
             Route::get("{invoice}/cetakResi", [PdfController::class, "cetakResiInvoice"])->name("invoice.cetak.resi");
+            Route::get("{invoice}/cetakInvoice", [PdfController::class, "cetakCostumerInvoice"])->name("invoice.cetak.costumerInvoice");
 
             Route::middleware('permission:invoice-kelola')->group(function(){
                 // edit invoice
