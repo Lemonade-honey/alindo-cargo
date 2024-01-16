@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Laporan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Throwable;
@@ -60,16 +61,30 @@ class LaporanController extends Controller
 
         abort_if(!$laporan, 404);
 
+        // cache data
+        $key = "laporan-" . date('F Y', strtotime($laporan->tanggal));
+        $cacheFile = Cache::get($key);
+
+        if($cacheFile){
+
+            return view("laporan.detail", [
+                "laporan" => $cacheFile,
+                "tanggal" => $tanggal
+            ])->with('info', 'menggunakan cache');
+        }
+
         $invoices = \App\Models\invoice\Invoice::with("invoicePerson", "invoiceData", "invoiceCost", "invoiceVendors")->whereMonth("created_at", date('m', strtotime($laporan->tanggal)))
         ->whereYear("created_at", date('Y', strtotime($laporan->tanggal)))
         ->orderBy("id","desc")
         ->get();
 
-        $invoices = $this->laporanService->dataInvoiceBulan($invoices);
+        $laporan->invoices = $this->laporanService->dataInvoiceBulan($invoices);
 
-        $statistik = $this->laporanService->statistikLaporanInvoiceBulan($invoices);
+        $laporan->statistik = $this->laporanService->statistikLaporanInvoiceBulan($invoices);
 
-        return view("laporan.detail", compact("invoices", "statistik", "tanggal"));
+        Cache::put($key, $laporan, 60); // 60 menit
+
+        return view("laporan.detail", compact("laporan", "tanggal"))->with('info', 'tanpa cache');
     }
 
     public function deleteLaporan($tanggal){

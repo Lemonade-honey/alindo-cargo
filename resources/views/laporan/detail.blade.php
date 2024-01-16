@@ -65,29 +65,29 @@
         <div class="">
             <div class="mb-3 flex justify-between">
                 <p>Total Income Invoice</p>
-                <p>Rp. {{ number_format($statistik['total-harga-invoice']) }}</p>
+                <p>Rp. {{ number_format($laporan->statistik['total-harga-invoice']) }}</p>
             </div>
             <div class="mb-3 flex justify-between">
                 <p>Total Vendor</p>
-                <p>Rp. {{ number_format($statistik['total-harga-vendor']) }}</p>
+                <p>Rp. {{ number_format($laporan->statistik['total-harga-vendor']) }}</p>
             </div>
             <div class="mb-3 flex justify-between">
                 <p>Total Profit</p>
-                <p>Rp. {{ number_format($statistik['total-profit']) }}</p>
+                <p>Rp. {{ number_format($laporan->statistik['total-profit']) }}</p>
             </div>
         </div>
         <div class="">
             <div class="mb-3 flex justify-between">
                 <p>Target bulan laporan ini</p>
-                <p>{{ date('F Y', strtotime($statistik['target-tanggal'])) }}</p>
+                <p>{{ date('F Y', strtotime($laporan->statistik['target-tanggal'])) }}</p>
             </div>
             <div class="mb-3 flex justify-between">
                 <p>Total Invoice</p>
-                <p>{{ number_format($statistik['total-invoice']) }}</p>
+                <p>{{ number_format($laporan->statistik['total-invoice']) }}</p>
             </div>
             <div class="mb-3 flex justify-between">
                 <p><span class="text-yellow-400">Warning</span> status</p>
-                <p>{{ $statistik['total-warning'] }}</p>
+                <p>{{ $laporan->statistik['total-warning'] }}</p>
             </div>
         </div>
 
@@ -118,7 +118,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($invoices as $key => $value)
+                @foreach ($laporan->invoices as $key => $value)
                 <tr class="hover:bg-gray-200">
                     <td>{{ $key + 1 }}</td>
                     <td><a href="{{ route('invoice.detail', ['invoice' => $value->invoice]) }}" class="hover:underline">{{ $value->invoice }}</a></td>
