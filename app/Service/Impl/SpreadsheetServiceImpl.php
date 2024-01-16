@@ -25,7 +25,7 @@ class SpreadsheetServiceImpl implements \App\Service\SpreadsheetServiceInterface
 
         // // set Header
         $activeWorksheet->setCellValue( 'A1', 'Rekap Laporan Bulan ' . date('F, Y', strtotime($tanggalLaporan)));
-        $activeWorksheet->mergeCells("A1:P1");
+        $activeWorksheet->mergeCells("A1:S1");
         $activeWorksheet->getStyle('A1')->getFont()->setSize(20);
         $activeWorksheet->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
@@ -44,9 +44,11 @@ class SpreadsheetServiceImpl implements \App\Service\SpreadsheetServiceInterface
         $activeWorksheet->setCellValue('L2', 'Kontak Penerima');
         $activeWorksheet->setCellValue('M2', 'Alamat Penerima');
         $activeWorksheet->setCellValue('N2', 'Biaya Total');
-        $activeWorksheet->setCellValue('O2', 'Vendor');
-        $activeWorksheet->setCellValue('P2', 'Vendor Total');
-        $activeWorksheet->setCellValue('Q2', 'Profit');
+        $activeWorksheet->setCellValue('O2', 'Status Pembayaran');
+        $activeWorksheet->setCellValue('P2', 'Metode Pembayaran');
+        $activeWorksheet->setCellValue('Q2', 'Vendor');
+        $activeWorksheet->setCellValue('R2', 'Vendor Total');
+        $activeWorksheet->setCellValue('S2', 'Profit');
         
         $i = 2;
 
@@ -69,9 +71,11 @@ class SpreadsheetServiceImpl implements \App\Service\SpreadsheetServiceInterface
             $activeWorksheet->setCellValue('L'. $i, $value->invoicePerson->kontak_penerima);
             $activeWorksheet->setCellValue('M'. $i, $value->invoicePerson->alamat);
             $activeWorksheet->setCellValue('N'. $i, $value->invoiceCost->biaya_total);
-            $activeWorksheet->setCellValue('O'. $i, $value->invoiceVendors->count());
-            $activeWorksheet->setCellValue('P'. $i, $value->total_harga_vendor);
-            $activeWorksheet->setCellValue('Q'. $i, $value->profit);
+            $activeWorksheet->setCellValue('O'. $i, $value->invoiceCost->status);
+            $activeWorksheet->setCellValue('P'. $i, $value->invoiceCost->metode);
+            $activeWorksheet->setCellValue('Q'. $i, $value->invoiceVendors->count());
+            $activeWorksheet->setCellValue('R'. $i, $value->total_harga_vendor);
+            $activeWorksheet->setCellValue('S'. $i, $value->profit);
         }
 
         return $spreadSheet;
