@@ -44,7 +44,9 @@
     </div>
 
     {{-- Statistik chart start --}}
-    @livewire('chart-statistik-invoice')
+    @can('chart-statistik-invoice')
+        @livewire('chart-statistik-invoice')
+    @endcan
     {{-- Statistik chart end --}}
 
 </main>
