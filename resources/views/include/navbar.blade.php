@@ -12,19 +12,19 @@
         <div class="hidden w-full md:block md:w-auto" id="navbar-default">
             <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-navbar-300 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-navbar-200">
                 <li>
-                    <a href="#" class="block py-2 px-3 text-gray-800 bg-navbar-200 rounded md:bg-transparent md:text-[#917800] md:p-0" aria-current="page">Home</a>
+                    <a href="/#home" class="block py-2 px-3 text-gray-800 bg-navbar-200 rounded md:bg-transparent md:text-[#917800] md:p-0" aria-current="page">Home</a>
                 </li>
                 <li>
-                    <a href="#about" class="block py-2 px-3 text-gray-500 rounded md:hover:bg-transparent md:border-0 hover:text-gray-800 md:p-0">About</a>
+                    <a href="/#about" class="block py-2 px-3 text-gray-500 rounded md:hover:bg-transparent md:border-0 hover:text-gray-800 md:p-0">About</a>
                 </li>
                 <li>
-                    <a href="#service" class="block py-2 px-3 text-gray-500 rounded md:hover:bg-transparent md:border-0 hover:text-gray-800 md:p-0">Services</a>
+                    <a href="/#service" class="block py-2 px-3 text-gray-500 rounded md:hover:bg-transparent md:border-0 hover:text-gray-800 md:p-0">Services</a>
                 </li>
                 <li>
-                    <a href="#" class="block py-2 px-3 text-gray-500 rounded md:hover:bg-transparent md:border-0 hover:text-gray-800 md:p-0">Pricing</a>
+                    <a href="/price" class="block py-2 px-3 text-gray-500 rounded md:hover:bg-transparent md:border-0 hover:text-gray-800 md:p-0">Pricing</a>
                 </li>
                 <li>
-                    <a href="#contact" class="block py-2 px-3 text-gray-500 rounded md:hover:bg-transparent md:border-0 hover:text-gray-800 md:p-0">Contact</a>
+                    <a href="/#contact" class="block py-2 px-3 text-gray-500 rounded md:hover:bg-transparent md:border-0 hover:text-gray-800 md:p-0">Contact</a>
                 </li>
             </ul>
         </div>

@@ -27,6 +27,8 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('/price', fn() => view('price'));
+
 Route::middleware("guest")->group(function(){
     Route::get('/login', [DashboardController::class, "login"])->name("login");
     Route::post('/login', [DashboardController::class, "loginPost"]);

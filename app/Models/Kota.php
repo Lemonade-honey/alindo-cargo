@@ -14,6 +14,14 @@ class Kota extends Model
     ];
 
     /**
+     * Scope Function
+     */
+    public function scopeSearch($query, $value){
+        $query->where('kota', 'like', "%{$value}%")
+        ->orWhere('harga', 'like', "%{$value}%");
+    }
+
+    /**
      * Ubah attribut kota menjadi UPPERCASE sebelum disimpan
      */
     public function setKotaAttribute($value){
