@@ -201,7 +201,6 @@
             <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
             <span class="ms-3 text-sm font-medium text-gray-900">Form Lock</span>
         </label>
-        <p class="mt-1">Member : {{ $invoice->invoiceData->form_setting["member-id"] != null ? $invoice->invoicePerson->pengirim : '-' }}</p>
     </div>
     <div class="p-4 border border-gray-200 rounded-lg shadow">
         <p class="font-medium mb-5">Data Invoice</p>
@@ -209,7 +208,7 @@
             <div class="w-full">
                 <div class="mb-6 flex gap-3">
                     <div class="w-full">
-                        <label class="block mb-2 text-sm font-medium text-gray-900">Invoice</label>
+                        <label class="block mb-2 text-sm font-medium text-gray-900">Resi</label>
                         <p class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 font-bold">{{ $invoice->invoice }}</p>
                     </div>
                     <div class="w-full">

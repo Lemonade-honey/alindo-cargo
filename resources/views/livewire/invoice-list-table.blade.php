@@ -32,7 +32,7 @@
                         No
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Invoice
+                        Resi
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Tanggal
