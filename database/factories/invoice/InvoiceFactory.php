@@ -3,10 +3,6 @@
 namespace Database\Factories\invoice;
 
 use App\Models\invoice\Invoice;
-use App\Models\invoice\InvoiceCost;
-use App\Models\invoice\InvoiceData;
-use App\Models\invoice\InvoicePerson;
-use App\Models\invoice\InvoiceTracking;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,7 +19,7 @@ class InvoiceFactory extends Factory
     {
         $asalKota = "Yogyakarta - Base";
         $tujuan = fake()->city();
-        $status = "proses"; // selesai,batal
+        $status = fake()->boolean() ? "proses" : "selesai";
         $keterangan = 'ini data dummy';
         $history = [
             "action" => "POST",
@@ -44,10 +40,9 @@ class InvoiceFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Invoice $invoice) {
-            InvoiceData::factory()->create(['id_invoice' => $invoice->id]);
-            InvoiceCost::factory()->create(['id_invoice' => $invoice->id]);
-            InvoicePerson::factory()->create(['id_invoice' => $invoice->id]);
-            InvoiceTracking::factory()->create(['id_invoice' => $invoice->id]);
+            \App\Models\invoice\InvoiceData::factory()->create(['id_invoice' => $invoice->id]);
+            \App\Models\invoice\InvoicePerson::factory()->create(['id_invoice' => $invoice->id]);
+            \App\Models\invoice\InvoiceTracking::factory()->create(['id_invoice' => $invoice->id]);
         });
     }
 }

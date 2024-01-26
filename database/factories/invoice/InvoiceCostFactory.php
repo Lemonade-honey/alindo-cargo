@@ -24,10 +24,8 @@ class InvoiceCostFactory extends Factory
         ];
 
         return [
-            "biaya_kirim" => 900000,
             "biaya_lainnya" => $biaya_lainnya,
-            "biaya_total" => 1000000,
-            "status" => "belum bayar",
+            "status" => fake()->boolean() ? "belum bayar" : "lunas",
             "deskripsi" => "data dummy"
         ];
     }

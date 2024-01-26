@@ -2,6 +2,7 @@
 
 namespace Database\Factories\invoice;
 
+use App\Models\invoice\InvoiceData;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -34,5 +35,15 @@ class InvoiceDataFactory extends Factory
             "kategori" => $kategori,
             "pemeriksaan" => $pemeriksaan
         ];
+    }
+
+    public function configure(){
+        return $this->afterCreating(function (InvoiceData $invoiceData){
+            \Database\Factories\invoice\InvoiceCostFactory::new([
+                'id_invoice' => $invoiceData->id_invoice,
+                'biaya_kirim' => $invoiceData->berat * $invoiceData->harga_kg,
+                'biaya_total' => $invoiceData->berat * $invoiceData->harga_kg
+            ])->create();
+        });
     }
 }
