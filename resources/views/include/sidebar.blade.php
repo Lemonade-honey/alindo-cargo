@@ -136,7 +136,7 @@
             @endcan
             @can('log-viewer')
             <li>
-                <a href="/log-viewer" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                <a href="/dashboard/log-viewer" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                     <i class="fa-solid fa-file-waveform text-gray-500"></i>
                     <span class="flex-1 ms-3 whitespace-nowrap">Log File</span>
                 </a>
