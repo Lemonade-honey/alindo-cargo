@@ -33,7 +33,7 @@ class PdfServiceImpl implements PdfServiceInterface{
 
             // set nomer resi
             $pdf->SetFont('Arial','B', 10);
-            $pdf->Cell($w['full'], 8, "No Invoice $invoice->invoice", 1, 2, 'C');
+            $pdf->Cell($w['full'], 8, "Resi $invoice->invoice", 1, 2, 'C');
             $pdf->Cell($w['full'], 20, '', 1, 2, 'C');
             $barcode = $this->imageService->barCode($invoice->invoice);
             $pdf->Image("temp/$barcode", 15, 29, 70, 14, 'PNG');
