@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->string("invoice")->unique('invoice');
+            $table->string("resi")->unique('resi');
             $table->string('asal');
             $table->string('tujuan');
             $table->string('status');

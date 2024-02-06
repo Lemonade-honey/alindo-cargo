@@ -11,7 +11,8 @@ class Invoice extends Model
 
     protected $guarded = [
         "id",
-        "invoice"
+        "invoice",
+        "resi"
     ];
 
     // Start Point
@@ -25,13 +26,13 @@ class Invoice extends Model
             $currentDate = now()->format('dmy');
 
             // Mendapatkan increment invoice pada hari ini
-            $lastInvoice = self::whereDate('created_at', today())->orderBy('id', 'desc')->first();
+            $lastResi = self::whereDate('created_at', today())->orderBy('id', 'desc')->first();
 
             // Jika sudah ada invoice pada hari ini, increment
-            $increment = $lastInvoice ? (int) substr($lastInvoice->invoice, -4) + 1 : 0;
+            $incrementResi = $lastResi ? (int) substr($lastResi->invoice, -4) + 1 : 0;
 
-            // Menghasilkan invoice baru
-            $model->invoice = $currentDate . sprintf('%04d', $increment);
+            $model->invoice = "INV/" .date('y') . "/" . Invoice::angkaKeRomawi(date('m')) . "-" . Invoice::angkaKeRomawi(date('d')) . "/" . sprintf('%04d', $incrementResi);
+            $model->resi = $currentDate . sprintf('%04d', $incrementResi);
         });
 
         // hapus data dengan semua relasinya
@@ -41,6 +42,36 @@ class Invoice extends Model
             $model->invoiceCost->delete();
             $model->invoiceTracking->delete();
         });
+    }
+
+    // Fungsi untuk mengonversi angka menjadi angka romawi
+    private static function angkaKeRomawi($angka) {
+        $romawi = '';
+        $angkaRomawi = array(
+            'M' => 1000,
+            'CM' => 900,
+            'D' => 500,
+            'CD' => 400,
+            'C' => 100,
+            'XC' => 90,
+            'L' => 50,
+            'XL' => 40,
+            'X' => 10,
+            'IX' => 9,
+            'V' => 5,
+            'IV' => 4,
+            'I' => 1
+        );
+
+        
+        foreach ($angkaRomawi as $simbol => $nilai) {
+            while ($angka >= $nilai) {
+                $romawi .= $simbol;
+                $angka -= $nilai;
+            }
+        }
+        
+        return $romawi;
     }
 
     /**
