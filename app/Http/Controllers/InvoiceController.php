@@ -107,7 +107,7 @@ class InvoiceController extends Controller
                 "user" => "user email"
             ]);
 
-            return redirect()->route("invoice.detail", ["invoice" => $invoice->resi])->with("success", "Invoice berhasil dibuat");
+            return redirect()->route("invoice.detail", ["resi" => $invoice->resi])->with("success", "Invoice berhasil dibuat");
         } catch(Throwable $th){
             DB::rollBack();
 
