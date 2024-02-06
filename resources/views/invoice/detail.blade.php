@@ -42,17 +42,17 @@
                         Swal.fire({
                             title: "Masukan Kode dibawah ini",
                             input: "text",
-                            inputLabel: "{{ $invoice->invoice }}",
+                            inputLabel: "{{ $invoice->resi }}",
                             showCancelButton: true,
                             confirmButtonColor: "#3085d6",
                             cancelButtonColor: "#d33",
                             confirmButtonText: "Hapus",
                             inputValidator: (value) => {
-                                if (!value) return "Masukkan Kode Invoice!";
-                                if (value != "{{ $invoice->invoice }}") return "Data tidak sama";
+                                if (!value) return "Masukkan Kode Resi!";
+                                if (value != "{{ $invoice->resi }}") return "Data tidak sama";
 
-                                if(value == "{{ $invoice->invoice }}"){
-                                    window.location = "{{ route('invoice.delete', ['invoice' => $invoice->invoice]) }}";
+                                if(value == "{{ $invoice->resi }}"){
+                                    window.location = "{{ route('invoice.delete', ['resi' => $invoice->resi]) }}";
                                     return;
                                 }
                             }
@@ -85,7 +85,7 @@
                     <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
                     </svg>
-                    <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2">{{ $invoice->invoice }}</span>
+                    <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2">{{ $invoice->resi }}</span>
                 </div>
             </li>
         </ol>
@@ -95,6 +95,13 @@
 @include('include.flash')
 
 <main>
+
+    @if ($invoice->status == "batal")
+    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100" role="alert">
+        <span class="font-medium">Invoice ini dibatalkan!</span>
+    </div>
+    @endif
+
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <div class="w-full p-4 border border-gray-100 rounded-lg shadow">
             <p class="mb-2 font-medium">Invoice Status</p>
@@ -136,7 +143,7 @@
                         </div>
                         <!-- Modal body -->
                         <div class="p-4 md:p-5 space-y-4">
-                            <form action="{{ route('invoice.status', ['invoice' => $invoice->invoice]) }}" method="post">
+                            <form action="{{ route('invoice.status', ['resi' => $invoice->resi]) }}" method="post">
                                 @csrf
                                 <div class="mb-6">
                                     <label for="status" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
@@ -186,7 +193,7 @@
             
             @can('invoice-pembayaran')
             <div class="mt-5 flex justify-end">
-                <a href="{{ route('invoice.pembayaran', ['invoice' => $invoice->invoice]) }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2">Set Ulang</a>
+                <a href="{{ route('invoice.pembayaran', ['resi' => $invoice->resi]) }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2">Set Ulang</a>
             </div>
             @endcan
 
@@ -208,21 +215,27 @@
             <div class="w-full">
                 <div class="mb-6 flex gap-3">
                     <div class="w-full">
-                        <label class="block mb-2 text-sm font-medium text-gray-900">Resi</label>
+                        <label class="block mb-2 text-sm font-medium text-gray-900">Invoice</label>
                         <p class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 font-bold">{{ $invoice->invoice }}</p>
                     </div>
                     <div class="w-full">
-                        <label class="block mb-2 text-sm font-medium text-gray-900">Tanggal</label>
-                        <p class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">{{ date("H:i:s, d M Y", strtotime($invoice->created_at)) }}</p>
+                        <label class="block mb-2 text-sm font-medium text-gray-900">Resi</label>
+                        <p class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 font-bold">{{ $invoice->resi }}</p>
                     </div>
                 </div>
                 <div class="mb-6">
-                    <label for="countries" class="block mb-2 text-sm font-medium text-gray-900">Kota Asal</label>
-                    <p class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 capitalize">{{ $invoice->asal }}</p>
+                    <label class="block mb-2 text-sm font-medium text-gray-900">Tanggal</label>
+                    <p class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">{{ date("H:i:s, d M Y", strtotime($invoice->created_at)) }}</p>
                 </div>
-                <div class="mb-6">
-                    <label class="block mb-2 text-sm font-medium text-gray-900">Kota Tujuan</label>
-                    <p class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 capitalize">{{ $invoice->tujuan }}</p>
+                <div class="flex gap-3 mb-6">
+                    <div class="w-full">
+                        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900">Kota Asal</label>
+                        <p class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 capitalize">{{ $invoice->asal }}</p>
+                    </div>
+                    <div class="w-full">
+                        <label class="block mb-2 text-sm font-medium text-gray-900">Kota Tujuan</label>
+                        <p class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 capitalize">{{ $invoice->tujuan }}</p>
+                    </div>
                 </div>
                 <div class="mb-6">
                     <div class="flex gap-3">
@@ -300,19 +313,19 @@
                     <p class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">Rp. {{ number_format($invoice->invoiceCost->biaya_total) }}</p>
                 </div>
                 <div class="flex justify-end">
-                    <a href="{{ route('invoice.cetak.resi', ['invoice' => $invoice->invoice]) }}" target="_blank" class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2" title="Print Resi">
+                    <a href="{{ route('invoice.cetak.resi', ['resi' => $invoice->resi]) }}" target="_blank" class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2" title="Print Resi">
                         <div class="w-5 text-white">
                             <svg viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000" stroke-width="0.192"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V11C20.6569 11 22 12.3431 22 14V18C22 19.6569 20.6569 21 19 21H5C3.34314 21 2 19.6569 2 18V14C2 12.3431 3.34315 11 5 11V5ZM5 13C4.44772 13 4 13.4477 4 14V18C4 18.5523 4.44772 19 5 19H19C19.5523 19 20 18.5523 20 18V14C20 13.4477 19.5523 13 19 13V15C19 15.5523 18.5523 16 18 16H6C5.44772 16 5 15.5523 5 15V13ZM7 6V12V14H17V12V6H7ZM9 9C9 8.44772 9.44772 8 10 8H14C14.5523 8 15 8.44772 15 9C15 9.55228 14.5523 10 14 10H10C9.44772 10 9 9.55228 9 9ZM9 12C9 11.4477 9.44772 11 10 11H14C14.5523 11 15 11.4477 15 12C15 12.5523 14.5523 13 14 13H10C9.44772 13 9 12.5523 9 12Z" fill="#ffffff"></path> </g></svg>
                         </div>
                     </a>
-                    <a href="{{ route('invoice.cetak.costumerInvoice', ['invoice' => $invoice->invoice]) }}" target="_blank" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2" title="Print Invoice QR">
+                    <a href="{{ route('invoice.cetak.costumerInvoice', ['resi' => $invoice->resi]) }}" target="_blank" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2" title="Print Invoice QR">
                         <div class="w-5 text-white">
                             <svg fill="#ffffff" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>paper</title> <path d="M0 32l4-4 4 4 4-4 4 4 4-4 4 4 4-4 4 4v-25.984q0-2.496-1.76-4.256t-4.224-1.76h-20q-2.496 0-4.256 1.76t-1.76 4.256v25.984zM4 22.016v-16q0-0.832 0.576-1.408t1.44-0.608h20q0.8 0 1.408 0.608t0.576 1.408v16l-4 4-4-4-4 4-4-4-4 4zM8 18.016h16v-2.016h-16v2.016zM8 14.016h16v-2.016h-16v2.016zM8 10.016h16v-2.016h-16v2.016z"></path> </g></svg>
                         </div>
                     </a>
                     
                     @can('invoice-kelola')
-                    <a href="{{ route('invoice.edit', ['invoice' => $invoice->invoice]) }}" class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2" title="Print Invoice QR">
+                    <a href="{{ route('invoice.edit', ['resi' => $invoice->resi]) }}" class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2" title="Print Invoice QR">
                         Edit Invoice
                     </a>
                     @endcan
@@ -381,7 +394,7 @@
 
         @can('invoice-kelola')
         <div class="mt-5">
-            <a href="{{ route('invoice.vendor', ['invoice' => $invoice->invoice]) }}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Kelola Vendor</a>
+            <a href="{{ route('invoice.vendor', ['resi' => $invoice->resi]) }}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Kelola Vendor</a>
         </div>
         @endcan
 

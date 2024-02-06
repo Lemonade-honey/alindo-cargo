@@ -107,7 +107,7 @@ class InvoiceController extends Controller
                 "user" => "user email"
             ]);
 
-            return redirect()->route("invoice.detail", ["invoice" => $invoice->invoice])->with("success", "Invoice berhasil dibuat");
+            return redirect()->route("invoice.detail", ["invoice" => $invoice->resi])->with("success", "Invoice berhasil dibuat");
         } catch(Throwable $th){
             DB::rollBack();
 
@@ -124,8 +124,8 @@ class InvoiceController extends Controller
     /**
      * GET edit invoice
      */
-    public function edit($invoice){
-        $invoice = Invoice::with("invoicePerson", "invoiceData", "invoiceCost")->where("invoice", $invoice)->first();
+    public function edit($resi){
+        $invoice = Invoice::with("invoicePerson", "invoiceData", "invoiceCost")->where("resi", $resi)->first();
 
         abort_if(!$invoice, 404, "data not found");
 
@@ -139,11 +139,11 @@ class InvoiceController extends Controller
     /**
      * POST edit invoice
      */
-    public function editPost($invoice, RequestInvoiceCreate $request){
+    public function editPost($resi, RequestInvoiceCreate $request){
         // validasi inputan
         $request->validated();
 
-        $invoice = Invoice::where("invoice", $invoice)->first();
+        $invoice = Invoice::where("resi", $resi)->first();
 
         abort_if(!$invoice, 404, "data not found");
 
@@ -185,7 +185,7 @@ class InvoiceController extends Controller
                 "user" => "email"
             ]);
 
-            return redirect()->route("invoice.detail", ["invoice" => $invoice->invoice])->with("success", "invoice berhasil diupdate");
+            return redirect()->route("invoice.detail", ["resi" => $invoice->invoice])->with("success", "invoice berhasil diupdate");
         } catch (Throwable $th) {
             DB::rollBack();
 
@@ -202,10 +202,10 @@ class InvoiceController extends Controller
     /**
      * GET detail invoice yang ditargetkan
      */
-    public function detail($invoice){
+    public function detail($resi){
 
         $invoice = Invoice::with("invoiceData", "invoiceCost", "invoicePerson", "invoiceVendors.vendor",
-        "invoiceVendors.kota", "invoiceTracking")->where("invoice", $invoice)->first();
+        "invoiceVendors.kota", "invoiceTracking")->where("resi", $resi)->first();
 
         $invoice->vendors = $this->invoiceService->listVendor($invoice);
 
@@ -217,8 +217,8 @@ class InvoiceController extends Controller
      * 
      * path untuk menghapus invoice
      */
-    public function deleteInvoice($invoice){
-        $invoice = Invoice::where("invoice", $invoice)->first();
+    public function deleteInvoice($resi){
+        $invoice = Invoice::where("resi", $resi)->first();
 
         abort_if(!$invoice, 404, "data not found");
 
@@ -245,13 +245,13 @@ class InvoiceController extends Controller
     /**
      * Set Status Invoice
      */
-    public function setStatusInvoice($invoice, Request $request){
+    public function setStatusInvoice($resi, Request $request){
         $request->validate([
             "status" => ["required", "in:proses,selesai,batal"],
             "keterangan" => ["nullable", "max:255"]
         ]);
 
-        $invoice = Invoice::where("invoice", $invoice)->first();
+        $invoice = Invoice::where("resi", $resi)->first();
 
         abort_if(!$invoice, 404, "data not found");
 
@@ -273,16 +273,16 @@ class InvoiceController extends Controller
                 "massage" => $th->getMessage()
             ]);
 
-            return dd($th);
+            return back()->with("error", 'gagal mengubah status');
         }
     }
 
     /**
      * SET Vendor Invoice
      */
-    public function vendorInvoice($invoice){
+    public function vendorInvoice($resi){
 
-        $invoice = Invoice::with("invoiceData", "invoiceVendors.vendor", "invoiceVendors.kota")->where("invoice", $invoice)->first();
+        $invoice = Invoice::with("invoiceData", "invoiceVendors.vendor", "invoiceVendors.kota")->where("resi", $resi)->first();
 
         abort_if(!$invoice, 404);
 
@@ -293,9 +293,9 @@ class InvoiceController extends Controller
         return view("invoice.vendor", compact("invoice", "kota"));
     }
 
-    public function vendorInvoicePost($invoice, Request $request){
+    public function vendorInvoicePost($resi, Request $request){
 
-        $invoice = Invoice::where("invoice", $invoice)->first();
+        $invoice = Invoice::where("resi", $resi)->first();
 
         abort_if(!$invoice, 404, "Invoice Not Found");
 
@@ -343,9 +343,9 @@ class InvoiceController extends Controller
         }
     }
 
-    public function vendorInvoiceDelete($invoice, $idVendorInvoice){
+    public function vendorInvoiceDelete($resi, $idVendorInvoice){
 
-        $invoice = Invoice::where("invoice", $invoice)->first();
+        $invoice = Invoice::where("resi", $resi)->first();
 
         $vendorInvoice = \App\Models\vendor\VendorInvoice::with("invoice")->where("id_invoice", $invoice->id)
         ->where("id_vendor_details", $idVendorInvoice)->first();

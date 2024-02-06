@@ -14,8 +14,8 @@ class PdfController extends Controller
         $this->pdfService = $pdfServiceInterface;
     }
 
-    public function cetakResiInvoice($invoice){
-        $invoice = Invoice::where("invoice", $invoice)->first();
+    public function cetakResiInvoice($resi){
+        $invoice = Invoice::where("resi", $resi)->first();
 
         abort_if(!$invoice, 404, "data not found");
 
@@ -35,8 +35,8 @@ class PdfController extends Controller
         }
     }
 
-    public function cetakCostumerInvoice($invoice){
-        $invoice = Invoice::with("invoicePerson", "invoiceCost", "invoiceData")->where("invoice", $invoice)->first();
+    public function cetakCostumerInvoice($resi){
+        $invoice = Invoice::with("invoicePerson", "invoiceCost", "invoiceData")->where("resi", $resi)->first();
 
         abort_if(!$invoice, 404, "data not found");
 

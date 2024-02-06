@@ -20,13 +20,13 @@ class PaymentController extends Controller
         $this->invoiceService = $invoiceServiceInterface;
     }
 
-    public function paymentInvoice($invoice){
-        $invoice = Invoice::with('invoiceCost')->where("invoice", $invoice)->first();
+    public function paymentInvoice($resi){
+        $invoice = Invoice::with('invoiceCost')->where("resi", $resi)->first();
 
         return view("invoice.pembayaran", compact("invoice"));
     }
 
-    public function paymentInvoicePost($invoice, Request $request){
+    public function paymentInvoicePost($resi, Request $request){
         $request->validate([
             "metode" => ["required", "in:cash,kartu,transfer"],
             "status" => ["required", "in:belum bayar,lunas,belum lunas"],
@@ -34,7 +34,7 @@ class PaymentController extends Controller
             "bukti" => ["nullable", "mimes:png,jpeg,jpg,pdf,zip", "max:6000"]
         ]);
 
-        $invoice = Invoice::with('invoiceCost')->where("invoice", $invoice)->first();
+        $invoice = Invoice::with('invoiceCost')->where("resi", $resi)->first();
 
         abort_if(!$invoice, 404, "data not found");
 
@@ -43,7 +43,7 @@ class PaymentController extends Controller
 
             if($request->has('bukti')){
                 $type = $request->file('bukti')->getClientOriginalExtension();
-                $filename = $invoice->invoice . "_" . date('dmy') . "_" . Str::random() . "." . $type;
+                $filename = $invoice->resi . "_" . date('dmy') . "_" . Str::random() . "." . $type;
 
                 if(Storage::exists("transaksi/" . $invoice->invoiceCost->bukti)){
                     // delete old file
