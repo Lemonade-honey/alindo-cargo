@@ -32,6 +32,9 @@
                         No
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Invoice
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Resi
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -64,6 +67,9 @@
                         {{ $invoice->invoice }}
                     </th>
                     <td class="px-6 py-4">
+                        {{ $invoice->resi }}
+                    </td>
+                    <td class="px-6 py-4">
                         {{ $invoice->created_at }}
                     </td>
                     <td class="px-6 py-4">
@@ -73,19 +79,19 @@
                         {{ $invoice->invoicePerson->pengirim }}
                     </td>
                     <td class="px-6 py-4">
-                        <span class="{{ $invoice->invoiceCost->status == 'lunas' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }} text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ $invoice->invoiceCost->status }}</span>
+                        <p class="{{ $invoice->invoiceCost->status == 'lunas' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }} text-center text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ $invoice->invoiceCost->status }}</p>
                     </td>
                     <td class="px-6 py-4 capitalize">
                         @if ($invoice->status == 'proses')
-                            <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ $invoice->status }}</span>
+                            <p class="bg-blue-100 text-center text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ $invoice->status }}</p>
                         @elseif($invoice->status == 'selesai')
-                            <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ $invoice->status }}</span>
+                            <p class="bg-green-100 text-center text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ $invoice->status }}</p>
                         @else
-                            <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ $invoice->status }}</span>
+                            <p class="bg-red-100 text-center text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ $invoice->status }}</p>
                         @endif
                     </td>
                     <td class="px-6 py-4 text-right">
-                        <a href="{{ route('invoice.detail', ['invoice' => $invoice->invoice]) }}" class="font-medium text-blue-600 hover:underline">View</a>
+                        <a href="{{ route('invoice.detail', ['resi' => $invoice->resi]) }}" class="font-medium text-blue-600 hover:underline">View</a>
                     </td>
                 </tr>
                 @endforeach

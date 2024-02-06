@@ -49,35 +49,35 @@ Route::middleware(["auth", \App\Http\Middleware\LogSlowQueries::class])->group(f
             Route::get("/create", [InvoiceController::class, "create"])->middleware('permission:invoice')->name("invoice.create");
             Route::post("/create", [InvoiceController::class, "createPost"])->middleware('permission:invoice');
             
-            Route::get("/{invoice}", [InvoiceController::class, "detail"])->name("invoice.detail");
+            Route::get("/{resi}", [InvoiceController::class, "detail"])->name("invoice.detail");
 
-            Route::get("{invoice}/cetakResi", [PdfController::class, "cetakResiInvoice"])->name("invoice.cetak.resi");
-            Route::get("{invoice}/cetakInvoice", [PdfController::class, "cetakCostumerInvoice"])->name("invoice.cetak.costumerInvoice");
+            Route::get("{resi}/cetakResi", [PdfController::class, "cetakResiInvoice"])->name("invoice.cetak.resi");
+            Route::get("{resi}/cetakInvoice", [PdfController::class, "cetakCostumerInvoice"])->name("invoice.cetak.costumerInvoice");
 
             Route::middleware('permission:invoice-kelola')->group(function(){
                 // edit invoice
-                Route::get("/{invoice}/edit", [InvoiceController::class, "edit"])->name("invoice.edit");
-                Route::post("/{invoice}/edit", [InvoiceController::class, "editPost"]);
+                Route::get("/{resi}/edit", [InvoiceController::class, "edit"])->name("invoice.edit");
+                Route::post("/{resi}/edit", [InvoiceController::class, "editPost"]);
 
                 // vendor relation
-                Route::get("/{invoice}/vendors", [InvoiceController::class, "vendorInvoice"])->name("invoice.vendor");
-                Route::post("/{invoice}/vendors", [InvoiceController::class, "vendorInvoicePost"]);
+                Route::get("/{resi}/vendors", [InvoiceController::class, "vendorInvoice"])->name("invoice.vendor");
+                Route::post("/{resi}/vendors", [InvoiceController::class, "vendorInvoicePost"]);
         
-                Route::get("/{invoice}/vendors/delete/{id}", [InvoiceController::class, "vendorInvoiceDelete"])->name("invoice.vendor.delete");
+                Route::get("/{resi}/vendors/delete/{id}", [InvoiceController::class, "vendorInvoiceDelete"])->name("invoice.vendor.delete");
             });
 
             // pembayaran route
             Route::middleware("permission:invoice-pembayaran")->group(function(){
-                Route::get("/{invoice}/pembayaran", [PaymentController::class, "paymentInvoice"])->name("invoice.pembayaran");
-                Route::post("/{invoice}/pembayaran", [PaymentController::class, "paymentInvoicePost"]);
+                Route::get("/{resi}/pembayaran", [PaymentController::class, "paymentInvoice"])->name("invoice.pembayaran");
+                Route::post("/{resi}/pembayaran", [PaymentController::class, "paymentInvoicePost"]);
             });
     
     
             // set status invoice
-            Route::post("/{invoice}/update/status", [InvoiceController::class, "setStatusInvoice"])->middleware("permission:invoice-status")->name("invoice.status");
+            Route::post("/{resi}/update/status", [InvoiceController::class, "setStatusInvoice"])->middleware("permission:invoice-status")->name("invoice.status");
 
             // delete invoice
-            Route::get("/{invoice}/delete/invoice", [InvoiceController::class, "deleteInvoice"])->middleware("permission:invoice-delete")->name("invoice.delete");
+            Route::get("/{resi}/delete/invoice", [InvoiceController::class, "deleteInvoice"])->middleware("permission:invoice-delete")->name("invoice.delete");
         });
     
         Route::prefix("vendors")->group(function(){

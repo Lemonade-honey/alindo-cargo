@@ -33,9 +33,9 @@ class PdfServiceImpl implements PdfServiceInterface{
 
             // set nomer resi
             $pdf->SetFont('Arial','B', 10);
-            $pdf->Cell($w['full'], 8, "Resi $invoice->invoice", 1, 2, 'C');
+            $pdf->Cell($w['full'], 8, "Resi $invoice->resi", 1, 2, 'C');
             $pdf->Cell($w['full'], 20, '', 1, 2, 'C');
-            $barcode = $this->imageService->barCode($invoice->invoice);
+            $barcode = $this->imageService->barCode($invoice->resi);
             $pdf->Image("temp/$barcode", 15, 29, 70, 14, 'PNG');
 
             // set data pengirim
@@ -57,10 +57,10 @@ class PdfServiceImpl implements PdfServiceInterface{
             // penerima
             $pdf->SetFont('Arial','', 6);
             $pdf->Text(53, 53, $invoice->invoicePerson->penerima . ',');
-            if(strlen($invoice->invoicePerson->alamat) > 35){
+            if(strlen($invoice->invoicePerson->alamat) > 30){
                 // dibagi kedalam array tiap 35 length
                 $i = 0;
-                $chunks = str_split($invoice->invoicePerson->alamat, 40);
+                $chunks = str_split($invoice->invoicePerson->alamat, 34);
                 foreach($chunks as $item){
                     $pdf->Text(53, (56 + $i), $item);
                     $i = $i + 2;
@@ -74,7 +74,7 @@ class PdfServiceImpl implements PdfServiceInterface{
 
             // qr code
             $pdf->Cell( 30, 30, null, 1);
-            $qrCode = $this->imageService->qrCode($invoice->invoice);
+            $qrCode = $this->imageService->qrCode($invoice->resi);
             $pdf->Image("temp/$qrCode", 8, 69, 25, null, "PNG");
 
             // keterangan barang
@@ -119,9 +119,9 @@ class PdfServiceImpl implements PdfServiceInterface{
         $pdf->SetXY(55, 5);
 
         // barcode
-        $pdf->Cell(40, 8, $invoice->invoice, 1, 0, 'C');
-        $barcode = $this->imageService->barCode($invoice->invoice);
-        $pdf->Image("temp/$barcode", 55, 15, 40, 10, "PNG");
+        $pdf->Cell(40, 8, $invoice->resi, 1, 0, 'C');
+        // $barcode = $this->imageService->barCode($invoice->resi);
+        // $pdf->Image("temp/$barcode", 55, 15, 40, 10, "PNG");
         $pdf->Ln(20);
 
         // tgl invoice
@@ -137,17 +137,16 @@ class PdfServiceImpl implements PdfServiceInterface{
         $pdf->Cell(45, 35, '', 1); // alamat penerima
         $pdf->SetFont('Arial','B', 8);
         $pdf->Text(52, 40, 'Alamat penerima');
-        $alamat = $invoice->invoicePerson->alamat;
         $pdf->SetFont('Arial','', 8);
-        if(strlen($alamat) > 29){
+        if(strlen($invoice->invoicePerson->alamat) > 20){
             $i = 0;
-            $chunks = str_split($alamat, 29);
+            $chunks = str_split($invoice->invoicePerson->alamat, 24);
             foreach($chunks as $item){
                 $pdf->Text(52, (44 + $i), $item);
                 $i = $i + 3;
             }
         }else{
-            $pdf->Text(52, 44, $alamat);
+            $pdf->Text(52, 44, $invoice->invoicePerson->alamat);
         }
 
         $pdf->Ln();
@@ -171,7 +170,7 @@ class PdfServiceImpl implements PdfServiceInterface{
         $pdf->Cell(22.5, 25, $invoice->invoiceData->berat . ' Kg', 1, 0, 'C');
         $pdf->Cell(45, 25, $invoice->invoiceData->kategori, 1, 0, 'C');
 
-        unlink("temp/$barcode");
+        // unlink("temp/$barcode");
         $pdf->Output();
     }
 }

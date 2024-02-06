@@ -3,13 +3,3 @@
 Sistem management barang alindo cargo. sistem ini dibuat untuk mendata barang-barang yang ada menggunakan framework PHP laravel, Tailwind dan flowbite
 
 -- create by daffa alif
-
-#### Rules Logger
-
--   info
-
-    -   [pesan], [ "user" => "email"]
-
--   error
-
-    -   [pesan], [class, function, error massage]

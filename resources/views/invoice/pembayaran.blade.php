@@ -41,11 +41,11 @@
             </li>
             <li aria-current="page">
                 <div class="flex items-center">
-                    <a href="{{ route('invoice.detail', ['invoice' => $invoice->invoice]) }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                    <a href="{{ route('invoice.detail', ['resi' => $invoice->resi]) }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
                         <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
                         </svg>
-                        {{ $invoice->invoice }}
+                        {{ $invoice->resi }}
                     </a>
                 </div>
             </li>
@@ -66,10 +66,15 @@
 <div class="grid grid-cols-1 gap-3">
     <div class="w-full p-4 border border-gray-100 rounded-lg shadow">
         <div class="flex mb-3 justify-between">
-            <h1 class="font-medium">Pembayaran Invoice {{ $invoice->invoice }}</h1>
+            <div class="">
+                <h2 class="font-medium">Pembayaran Invoice</h2>
+                <p class="mt-2">Invoice {{ $invoice->invoice }}</p>
+                <p class="">Resi {{ $invoice->resi }}</p>
+            </div>
             <p>Last Update : {{ date("H:i, d M Y", strtotime($invoice->invoiceCost->updated_at)) }}</p>
         </div>
-        <p class="mb-10">Total Biaya : Rp. {{ number_format($invoice->invoiceCost->biaya_total) }}</p>
+        <p class="mb-2">Total Biaya : Rp. {{ number_format($invoice->invoiceCost->biaya_total) }}</p>
+        <hr class="mb-10">
         <form action="#" method="post" enctype="multipart/form-data">
             @csrf
             <div class="mb-6">
@@ -105,7 +110,7 @@
             </div>
 
             <div class="flex justify-end">
-                <a href="{{ route('invoice.detail', ['invoice' => $invoice->invoice]) }}" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200">Detail Invoice</a>
+                <a href="{{ route('invoice.detail', ['resi' => $invoice->resi]) }}" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200">Detail Invoice</a>
                 <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Set Pembayaran</button>
             </div>
         </form>
