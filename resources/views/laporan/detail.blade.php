@@ -106,6 +106,7 @@
                 <tr>
                     <th>No</th>
                     <th>Invoice</th>
+                    <th>Resi</th>
                     <th>Tanggal</th>
                     <th>Status</th>
                     <th>Pembayaran</th>
@@ -121,7 +122,8 @@
                 @foreach ($laporan->invoices as $key => $value)
                 <tr class="hover:bg-gray-200">
                     <td>{{ $key + 1 }}</td>
-                    <td><a href="{{ route('invoice.detail', ['invoice' => $value->invoice]) }}" class="hover:underline">{{ $value->invoice }}</a></td>
+                    <td class="font-medium">{{ $value->invoice }}</td>
+                    <td><a href="{{ route('invoice.detail', ['resi' => $value->resi]) }}" class="hover:underline">{{ $value->resi }}</a></td>
                     <td>{{ date('H:i, d M Y', strtotime($value->created_at)) }}</td>
                     <td class="capitalize font-medium">
                         @if ($value->status == "proses")
@@ -135,15 +137,15 @@
                         @endif
                     </td>
                     <td>
-                        <a href="{{ route('invoice.pembayaran', ['invoice' => $value->invoice]) }}" class="{{ ($value->invoiceCost->status == 'lunas') ? 'text-green-500': 'text-red-500'}} font-medium hover:underline capitalize">{{ $value->invoiceCost->status }}</a>
+                        <a href="{{ route('invoice.pembayaran', ['resi' => $value->resi]) }}" class="{{ ($value->invoiceCost->status == 'lunas') ? 'text-green-500': 'text-red-500'}} font-medium hover:underline capitalize">{{ $value->invoiceCost->status }}</a>
                     </td>
                     <td>{{ $value->tujuan }}</td>
                     <td>{{ $value->invoiceData->berat }}</td>
                     <td>
-                        <a href="{{ route('invoice.vendor', ['invoice' => $value->invoice]) }}" class="hover:underline">{{ $value->invoiceVendors->count() }}</a>
+                        <a href="{{ route('invoice.vendor', ['resi' => $value->resi]) }}" class="hover:underline">{{ $value->invoiceVendors->count() }}</a>
                     </td>
                     <td>
-                        <a href="{{ route('invoice.vendor', ['invoice' => $value->invoice]) }}" class="hover:underline">Rp. {{ number_format($value->total_harga_vendor) }}</a>
+                        <a href="{{ route('invoice.vendor', ['resi' => $value->resi]) }}" class="hover:underline">Rp. {{ number_format($value->total_harga_vendor) }}</a>
                     </td>
                     <td>
                         Rp. {{ number_format($value->invoiceCost->biaya_total) }}
@@ -156,6 +158,7 @@
                 <tr class="text-xs text-gray-700 uppercase bg-gray-50 ">
                     <th>No</th>
                     <th>Invoice</th>
+                    <th>Resi</th>
                     <th>Tanggal</th>
                     <th>Status</th>
                     <th>Pembayaran</th>
