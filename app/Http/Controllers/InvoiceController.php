@@ -185,7 +185,7 @@ class InvoiceController extends Controller
                 "user" => "email"
             ]);
 
-            return redirect()->route("invoice.detail", ["resi" => $invoice->invoice])->with("success", "invoice berhasil diupdate");
+            return redirect()->route("invoice.detail", ["resi" => $invoice->resi])->with("success", "invoice berhasil diupdate");
         } catch (Throwable $th) {
             DB::rollBack();
 
