@@ -33,9 +33,9 @@ class PdfServiceImpl implements PdfServiceInterface{
 
             // set nomer resi
             $pdf->SetFont('Arial','B', 10);
-            $pdf->Cell($w['full'], 8, "Resi $invoice->invoice", 1, 2, 'C');
+            $pdf->Cell($w['full'], 8, "Resi $invoice->resi", 1, 2, 'C');
             $pdf->Cell($w['full'], 20, '', 1, 2, 'C');
-            $barcode = $this->imageService->barCode($invoice->invoice);
+            $barcode = $this->imageService->barCode($invoice->resi);
             $pdf->Image("temp/$barcode", 15, 29, 70, 14, 'PNG');
 
             // set data pengirim
@@ -74,7 +74,7 @@ class PdfServiceImpl implements PdfServiceInterface{
 
             // qr code
             $pdf->Cell( 30, 30, null, 1);
-            $qrCode = $this->imageService->qrCode($invoice->invoice);
+            $qrCode = $this->imageService->qrCode($invoice->resi);
             $pdf->Image("temp/$qrCode", 8, 69, 25, null, "PNG");
 
             // keterangan barang
@@ -119,8 +119,8 @@ class PdfServiceImpl implements PdfServiceInterface{
         $pdf->SetXY(55, 5);
 
         // barcode
-        $pdf->Cell(40, 8, $invoice->invoice, 1, 0, 'C');
-        $barcode = $this->imageService->barCode($invoice->invoice);
+        $pdf->Cell(40, 8, $invoice->resi, 1, 0, 'C');
+        $barcode = $this->imageService->barCode($invoice->resi);
         $pdf->Image("temp/$barcode", 55, 15, 40, 10, "PNG");
         $pdf->Ln(20);
 
